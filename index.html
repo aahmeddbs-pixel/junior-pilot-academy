@@ -258,6 +258,14 @@ canvas{display:block;width:100%;height:auto}
 .cockpit .status{background:rgba(255,255,255,.12);color:#fff}
 .cockpit .grid4 b{color:#cfe3f7;font-size:15px}
 .cityDot:hover circle{r:9}
+.vcard{background:var(--soft);border-radius:18px;padding:12px;display:flex;flex-direction:column;gap:4px}
+.vcard b{font-size:19px}.vcard p{margin:4px 0}
+.vwrap{position:relative;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000}
+.vwrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vthumb{aspect-ratio:16/9;border-radius:14px;background:linear-gradient(135deg,#12324f,#3b5bdb);display:grid;place-items:center;text-decoration:none;color:#fff;position:relative}
+.vthumb span{width:74px;height:74px;border-radius:50%;background:#ef4d56;display:grid;place-items:center;font-size:34px;box-shadow:0 6px 18px rgba(0,0,0,.3)}
+.vthumb em{position:absolute;bottom:10px;font-style:normal;font-weight:600}
+.vlink{font-weight:600;color:#3b5bdb}
 @media (max-width:760px){
  .hero{grid-template-columns:1fr}
  .parts-wrap{grid-template-columns:1fr}
@@ -277,7 +285,7 @@ canvas{display:block;width:100%;height:auto}
 <header class="top">
   <a class="logo" href="#home">✈️ Junior <b>Pilot</b> Academy</a>
   <div class="stats" id="topStats"></div>
-  <button class="iconbtn" id="soundBtn" title="Sound on/off">🔊</button>
+  <button class="iconbtn" id="readBtn" title="Read this page to me">📖</button><button class="iconbtn" id="voiceBtn" title="Choose the voice">🎙️</button><button class="iconbtn" id="soundBtn" title="Sound on/off">🔊</button>
 </header>
 <main id="app"></main>
 <div id="layer"></div>
@@ -309,9 +317,12 @@ const app=$('#app');
 
 // ---------- read aloud ----------
 let voice=null;
-function pickVoice(){try{const v=speechSynthesis.getVoices();voice=v.find(x=>/en-GB/i.test(x.lang))||v.find(x=>/^en/i.test(x.lang))||null}catch(e){}}
+const VOICE_PREF=[/natural/i,/neural/i,/premium/i,/enhanced/i,/google uk english/i,/google us english/i,/online/i,/siri/i,/sonia|libby|ryan|aria|jenny|guy|emma|brian/i,/samantha|daniel|serena|karen|moira|kate|oliver/i];
+function scoreVoice(v){if(!/^en/i.test(v.lang))return -1;let s=100;if(/en-GB/i.test(v.lang))s+=8;VOICE_PREF.forEach((r,i)=>{if(r.test(v.name))s+=40-i*2});if(/compact|espeak|novelty|whisper|zarvox|bells|bad news|bahh|boing|bubbles|cellos|trinoids|jester|organ|superstar|wobble|albert|fred|junior|ralph/i.test(v.name))s-=80;return s}
+function englishVoices(){try{return speechSynthesis.getVoices().filter(v=>scoreVoice(v)>0).sort((a,b)=>scoreVoice(b)-scoreVoice(a))}catch(e){return []}}
+function pickVoice(){try{const all=englishVoices();if(!all.length)return;let pref=null;try{pref=S.voice}catch(e){}voice=(pref&&all.find(v=>v.name===pref))||all[0]}catch(e){}}
 try{speechSynthesis.onvoiceschanged=pickVoice;pickVoice()}catch(e){}
-function speak(t){try{speechSynthesis.cancel();const clean=String(t).replace(/<[^>]+>/g,'').replace(/\p{Extended_Pictographic}/gu,'').replace(/[➜→]/g,' to ');const u=new SpeechSynthesisUtterance(clean);u.rate=.92;u.pitch=1.05;if(voice)u.voice=voice;speechSynthesis.speak(u)}catch(e){}}
+function speak(t){try{speechSynthesis.cancel();if(!voice)pickVoice();const clean=String(t).replace(/<[^>]+>/g,' ').replace(/\p{Extended_Pictographic}/gu,'').replace(/[➜→]/g,' to ').replace(/\s+/g,' ').trim();const parts=clean.match(/[^.!?]+[.!?]*/g)||[clean];let rate=.95;try{rate=S.rate||.95}catch(e){}parts.forEach(p=>{p=p.trim();if(!p)return;const u=new SpeechSynthesisUtterance(p);u.rate=rate;u.pitch=1;if(voice){u.voice=voice;u.lang=voice.lang}speechSynthesis.speak(u)})}catch(e){}}
 function stopSpeak(){try{speechSynthesis.cancel()}catch(e){}}
 const sayBtn=t=>`<button class="say" data-say="${esc(t)}" title="Read to me">🔊</button>`;
 
@@ -323,6 +334,7 @@ function beep(kind){if(!S.sound)return;try{actx=actx||new (window.AudioContext||
 const KEY='junior-pilot-academy-v1';
 function loadState(){try{return JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){return null}}
 let S=Object.assign({name:'',avatar:'🧑‍✈️',stars:0,learned:{},best:{},badges:{},movies:{},streakBest:0,sound:true},loadState()||{});
+pickVoice();
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}renderTop()}
 
 const RANKS=[[0,'Cadet','🧒'],[15,'Trainee Pilot','🎓'],[40,'First Officer','👨‍✈️'],[80,'Captain','🧑‍✈️'],[140,'Ace Captain','🏆'],[220,'Sky Legend','🚀']];
@@ -366,6 +378,23 @@ const MISSIONS=[
  {id:'hangar',icon:'🪪',title:'My Pilot Licence',sub:'Badges & certificate',color:'#12324f'},
 ];
 const M=id=>MISSIONS.find(m=>m.id===id);
+// REAL VIDEOS (YouTube). Add more: {id:'YouTubeID', t:'Title', src:'Channel', len:'mm:ss', d:'Why watch it'}
+const V={
+ howfly:{id:'VLpSxHwfU04',t:'How Airplanes Fly!',src:'SciShow Kids',len:'4:31',d:'Jessi and Squeaks the robot rat learn the science of how planes fly. Perfect for the four forces!'},
+ forces:{id:'zKSNudPl9UI',t:'The Four Forces of Flight',src:'Recommended by the National Aviation Hall of Fame',len:'',d:'See lift, weight, thrust and drag explained with real aircraft.'},
+ a380:{id:'3ZPPUXF8xKc',t:'The last Airbus A380 takes to the skies',src:'Eurofilms – Aviation',len:'',d:'Watch the giant double-decker A380 take off and fly over the Airbus factory.'},
+ clouds:{id:'JIkEMBiT6hQ',t:'What are the different types of clouds?',src:'NOAA SciJinks',len:'',d:'Real weather scientists explain cumulus, stratus, cirrus and storm clouds.'},
+ atc:{id:'y6g7xCyp8YM',t:'Air Traffic Control 101',src:'Federal Aviation Administration (FAA)',len:'1:29',d:'A quick look at how air traffic controllers keep every plane safe.'},
+ cockpit:{id:'uCGJo1-1fgc',t:'360° tour of the Emirates A380 cockpit',src:'Emirates',len:'3:00',d:'A real Emirates Captain and an Emirati First Officer show you the A380 flight deck. Drag the video (or move your tablet) to look all around!'},
+ issTour:{id:'D9gUhAOQ0O4',t:'Step inside the Space Station — astronaut tour',src:'NASA Johnson',len:'',d:'Astronauts float through the International Space Station and explain what everything does.'},
+ iss4k:{id:'DhmdyQdu96M',t:'Fly-through tour of the Space Station in 4K',src:'NASA',len:'18 min',d:'Glide through every part of the Space Station, filmed in space.'},
+ wrightPhoto:{id:'8HJEZK5mM0Q',t:"The Story a Photo Tells – Wright Brothers' First Flight",src:'Smithsonian National Air and Space Museum',len:'3:48',d:'Discover the hidden details in the famous photo of the very first flight in 1903.'},
+ wrightStem:{id:'FnML3I-yYyo',t:'The Wright Stuff: Flying the Wright Flyer',src:'Smithsonian – STEM in 30',len:'about 30 min',d:'A longer show for curious minds: how the Wright Flyer really flew.'},
+};
+const VIDEOS={parts:[V.howfly],forces:[V.howfly,V.forces],types:[V.a380],weather:[V.clouds],airports:[V.atc],instruments:[V.cockpit],life:[V.cockpit],space:[V.issTour,V.iss4k],history:[V.wrightPhoto,V.wrightStem],cinema:Object.values(V)};
+const CAN_EMBED=(()=>{try{return /^https?:$/.test(location.protocol)&&!/claude|anthropic/i.test(location.hostname)}catch(e){return false}})();
+function videoCard(v){const url='https://www.youtube.com/watch?v='+v.id;return `<div class="vcard">${CAN_EMBED?`<div class="vwrap"><iframe src="https://www.youtube-nocookie.com/embed/${v.id}?rel=0&modestbranding=1&playsinline=1" title="${esc(v.t)}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>`:`<a class="vthumb" href="${url}" target="_blank" rel="noopener"><span>▶</span><em>Watch on YouTube</em></a>`}<b>${v.t}</b><small class="muted">${v.src}${v.len?' · '+v.len:''}</small><p>${v.d}</p>${CAN_EMBED?`<a href="${url}" target="_blank" rel="noopener" class="vlink">Open on YouTube ↗</a>`:''}</div>`}
+function videoCards(id){const vs=VIDEOS[id];if(!vs||!vs.length)return '';return `<div class="card pad"><h2>📺 Real videos${id==='cinema'?' — the full collection':''}</h2><p class="muted">Real videos from trusted sources like NASA, the Smithsonian, the FAA and Emirates. ${CAN_EMBED?'Press play to watch right here.':'Tap a video to watch it on YouTube.'}</p><div class="grid2">${vs.map(videoCard).join('')}</div></div>`}
 const LESSONS=['parts','forces','types','weather','airports','instruments','routes','space','history','cinema','life','skills','school'];
 
 const FACTS=[
@@ -716,7 +745,7 @@ const MOVIES=[
    ===================================================================== */
 let cleanup=null;
 function lessonHead(m,intro){return `<div class="lesson-head" style="--c:${m.color};background:${m.color}"><a href="#home" class="back">⬅ Map</a><div class="lh-icon">${m.icon}</div><div><h1>${m.title}</h1><p>${intro} ${sayBtn(intro)}</p></div></div>`}
-function learnedBtn(id,quiz){const done=S.learned[id];return `<div class="learned-row"><button class="btn big ${done?'done':'green'}" data-learn="${id}">${done?'✅ Mission learned!':"✅ I've learned this! (+3 ⭐)"}</button>${quiz?`<a class="btn big alt" href="#quiz-${quiz}">🏆 Take the quiz</a>`:''}<a class="btn big grey" href="#home">🗺️ Back to map</a></div>`}
+function learnedBtn(id,quiz){const done=S.learned[id];return videoCards(id)+`<div class="learned-row"><button class="btn big ${done?'done':'green'}" data-learn="${id}">${done?'✅ Mission learned!':"✅ I've learned this! (+3 ⭐)"}</button>${quiz?`<a class="btn big alt" href="#quiz-${quiz}">🏆 Take the quiz</a>`:''}<a class="btn big grey" href="#home">🗺️ Back to map</a></div>`}
 
 // ---------- HOME ----------
 function viewHome(){
@@ -1369,6 +1398,11 @@ document.addEventListener('click',e=>{
  const s=e.target.closest('[data-say]');if(s){speak(s.dataset.say);return}
  const l=e.target.closest('[data-learn]');if(l){const id=l.dataset.learn;if(!S.learned[id]){S.learned[id]=1;save();addStars(3,'Mission learned!');award('learn-'+id);l.className='btn big done';l.textContent='✅ Mission learned!'}return}
 });
+$('#readBtn').onclick=()=>{try{if(speechSynthesis.speaking){stopSpeak();return}}catch(e){}const txt=$$('#app h1, #app h2, #app h3, #app p, #app li, #app .caption').filter(el=>el.offsetParent!==null&&!el.closest('.vcard')).map(el=>el.textContent.replace(/🔊/g,'').trim()).filter(Boolean).map(t=>/[.!?]$/.test(t)?t:t+'.').join(' ');speak(txt)};
+$('#voiceBtn').onclick=()=>{const vs=englishVoices();const m=modal(`<h2>🎙️ Choose the voice</h2><p>These voices come from this device. The ones at the top (with ⭐) sound the most like a real person. Tap <b>Try</b> to listen, then <b>Use</b>.</p><div style="max-height:46vh;overflow:auto">${vs.length?vs.slice(0,15).map((v,i)=>`<div class="chal" style="justify-content:space-between"><span>${i<3?'⭐ ':''}${esc(v.name)} <small class="muted">(${v.lang})</small>${voice&&voice.name===v.name?' <b>✅ in use</b>':''}</span><span class="row gap"><button class="btn sm grey" data-try="${i}">▶ Try</button><button class="btn sm green" data-use="${i}">Use</button></span></div>`).join(''):'<p>No English voices found on this device yet. Try reloading the page.</p>'}</div><p><b>Speed:</b> <input type="range" id="rateIn" min="0.75" max="1.15" step="0.05" value="${S.rate||.95}" class="slider" style="max-width:260px;vertical-align:middle"></p><p class="muted" style="font-size:15px">💡 For the most human voice: on iPhone/iPad go to Settings → Accessibility → Spoken Content → Voices → English, and download an <b>Enhanced</b> or <b>Premium</b> voice. On Windows, Microsoft Edge has very natural "Online (Natural)" voices. In Chrome, "Google UK English" voices sound good.</p><div class="center"><button class="btn big" data-close>Done</button></div>`);
+ $$('[data-try]',m).forEach(b=>b.onclick=()=>{const v=vs[+b.dataset.try];const keep=voice;voice=v;speak(`Hello ${pname()}! I am your flight instructor. Let's learn to fly together!`);voice=keep});
+ $$('[data-use]',m).forEach(b=>b.onclick=()=>{const v=vs[+b.dataset.use];voice=v;S.voice=v.name;save();speak(`Great choice! I will be your voice from now on, ${pname()}.`);m.remove();$('#voiceBtn').click()});
+ $('#rateIn',m).oninput=e=>{S.rate=+e.target.value;save()};};
 $('#soundBtn').onclick=()=>{S.sound=!S.sound;save();if(!S.sound)stopSpeak()};
 renderTop();route();
 if(!S.name)setTimeout(()=>askName(false),400);
