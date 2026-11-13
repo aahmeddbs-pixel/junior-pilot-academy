@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Junior Pilot Academy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Exo+2:wght@400;500;600;700;800&family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--ink:#12324f;--navy:#1d3f72;--sky:#5ec2ff;--sun:#ffc93c;--orange:#ff8a3d;--green:#22b566;--red:#ef4d56;--card:#ffffff;--soft:#eef7ff;--shadow:0 6px 0 rgba(18,50,79,.12),0 10px 24px rgba(18,50,79,.12)}
 *{box-sizing:border-box}
@@ -278,6 +278,88 @@ canvas{display:block;width:100%;height:auto}
  .qtext,.mq{font-size:22px}
 }
 @media (prefers-reduced-motion:reduce){.bgclouds span{animation:none}}
+/* ===================== v5 FLIGHT-DECK THEME ===================== */
+:root{--ink:#e7f0ff;--navy:#0b1730;--card:rgba(14,28,56,.82);--soft:rgba(255,255,255,.05);--sun:#ffb547;--orange:#ff7a2f;--sky:#38bdf8;--cyan:#22d3ee;--green:#22c55e;--red:#ef4444;--line:rgba(125,190,255,.18);--shadow:0 12px 32px rgba(0,0,0,.38)}
+body{font-family:'Exo 2',system-ui,sans-serif;color:var(--ink);background:radial-gradient(1100px 600px at 75% -10%,rgba(56,120,220,.45),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(255,122,47,.12),transparent 60%),linear-gradient(180deg,#050d1f 0%,#0a1a38 55%,#0e2448 100%);background-attachment:fixed}
+body:before{content:'';position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(1px 1px at 10% 20%,rgba(255,255,255,.5),transparent),radial-gradient(1px 1px at 30% 70%,rgba(255,255,255,.35),transparent),radial-gradient(1.5px 1.5px at 60% 30%,rgba(255,255,255,.45),transparent),radial-gradient(1px 1px at 85% 60%,rgba(255,255,255,.35),transparent),radial-gradient(1px 1px at 45% 90%,rgba(255,255,255,.3),transparent);z-index:0}
+.bgclouds{display:none}
+h1,.logo{font-family:'Orbitron','Exo 2',sans-serif;letter-spacing:.5px}
+h2,h3{font-family:'Exo 2',sans-serif;font-weight:800;letter-spacing:.2px}
+.top{background:rgba(5,13,31,.85);border-bottom:1px solid var(--line)}
+.logo b{color:var(--cyan)}
+.chip{background:rgba(56,189,248,.12);border:1px solid var(--line)}
+.chip.rank{background:linear-gradient(90deg,#ffb547,#ff7a2f);color:#1a1205}
+.rankbar{background:rgba(255,255,255,.1)}.rankbar i{background:linear-gradient(90deg,#22d3ee,#38bdf8)}
+.iconbtn{background:rgba(56,189,248,.1);border:1px solid var(--line)}
+.card,.qcard,.hero,.modal .box{background:var(--card);border:1px solid var(--line);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:var(--shadow);color:var(--ink)}
+.hero{background:linear-gradient(135deg,rgba(14,28,56,.9),rgba(20,50,100,.75))}
+.hero .hl{color:var(--cyan)}
+.muted,.mission small,.badge small,.acard small{color:#9fb6d8!important}
+.tile{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07)}
+.fact{background:rgba(255,181,71,.08);border:1px dashed rgba(255,181,71,.6)}
+.sec{color:#cfe6ff;text-shadow:none;font-family:'Orbitron',sans-serif;font-size:22px;letter-spacing:1px}
+.mission{background:linear-gradient(160deg,rgba(20,40,78,.95),rgba(10,22,46,.95));border:1px solid var(--line);border-bottom:3px solid var(--c);box-shadow:0 10px 26px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.06)}
+.mission:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(0,0,0,.45),0 0 0 1px var(--c),0 0 24px -4px var(--c)}
+.mission .micon{width:62px;height:62px;display:grid;place-items:center;font-size:34px;border-radius:16px;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.18),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.12);margin-bottom:6px}
+.mission b{color:#fff}
+.mission .num{background:transparent;border:1px solid var(--c);color:var(--c);font-family:'Orbitron',sans-serif;font-size:13px}
+.lesson-head{background-image:linear-gradient(120deg,rgba(255,255,255,.14),rgba(0,0,0,.45))!important;border:1px solid rgba(255,255,255,.12);position:relative;overflow:hidden}
+.lesson-head:after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 1px,transparent 1px 40px);pointer-events:none}
+.lesson-head .fly{margin-left:auto;align-self:center;white-space:nowrap;position:relative;z-index:1}
+.lh-icon{background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.18)}
+.btn{background:linear-gradient(180deg,#ff8f4d,#f0621a);box-shadow:0 4px 0 #9a3a0c,0 8px 20px rgba(255,122,47,.25);font-family:'Exo 2',sans-serif;font-weight:700}
+.btn.alt{background:linear-gradient(180deg,#38bdf8,#1d75d8);box-shadow:0 4px 0 #134c8c,0 8px 20px rgba(56,189,248,.25)}
+.btn.green,.btn.done{background:linear-gradient(180deg,#34d399,#15965a);box-shadow:0 4px 0 #0c5d38}
+.btn.grey{background:linear-gradient(180deg,#5b6b82,#3c4a5e);box-shadow:0 4px 0 #222c3a}
+.say{background:rgba(56,189,248,.15);color:#fff}
+.opt{background:linear-gradient(160deg,rgba(40,70,120,.95),rgba(22,40,74,.95))!important;border:1px solid rgba(125,190,255,.25);color:#fff}
+.opt .k{background:rgba(56,189,248,.25);color:#bfe9ff}
+.opt:hover{border-color:#38bdf8;box-shadow:0 0 18px -4px #38bdf8}
+.opt.right{background:linear-gradient(160deg,#16a34a,#0f7a37)!important;border-color:#4ade80}
+.opt.wrong{background:linear-gradient(160deg,#dc2626,#991b1b)!important}
+.explain.ok{background:rgba(34,197,94,.12);border:1px solid rgba(74,222,128,.6)}
+.explain.no{background:rgba(239,68,68,.12);border:1px solid rgba(248,113,113,.6)}
+.qprog,.mvbar{background:rgba(255,255,255,.1)}
+.ansbox{background:rgba(0,0,0,.3);border-color:rgba(125,190,255,.35);color:#fff}
+.keypad button{background:rgba(56,189,248,.12);color:#fff;box-shadow:0 4px 0 rgba(0,0,0,.4);border:1px solid var(--line)}
+.keypad .del{background:rgba(239,68,68,.2)}
+.lvl.on{border-color:var(--cyan)!important;background:rgba(34,211,238,.12)!important}
+.status{background:rgba(255,255,255,.06);color:#fff}
+.chal{background:rgba(255,255,255,.05)}.chal.ok{background:rgba(34,197,94,.18)}
+.tstep{background:rgba(255,255,255,.05)}
+.tag{background:rgba(255,181,71,.9);color:#1a1205}
+.badge{background:linear-gradient(160deg,rgba(20,40,78,.95),rgba(10,22,46,.95));border:1px solid var(--line)}
+.acard{background:linear-gradient(160deg,rgba(28,52,96,.95),rgba(12,26,52,.95));border:1px solid var(--line);color:#fff}
+input.txt{background:rgba(0,0,0,.3);color:#fff;border-color:rgba(125,190,255,.35)}
+.tabs button{background:rgba(255,255,255,.07);color:#cfe6ff}.tabs button.on{background:linear-gradient(180deg,#38bdf8,#1d75d8);color:#fff}
+.alphagrid div{background:rgba(255,255,255,.06)}
+.chk button{background:rgba(255,255,255,.07);color:#fff;border:1px solid var(--line)}
+.phon span{background:rgba(56,189,248,.2);border:1px solid var(--line)}
+.dots span{background:rgba(255,255,255,.2)}
+.vcard{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07)}.vlink{color:#7dd3fc}
+.speedbar{background:linear-gradient(90deg,#22d3ee,#6366f1)}
+.footer{color:#7f97ba}
+.licence{background:linear-gradient(135deg,#0b2a5c,#1e4f9a);border:1px solid rgba(125,190,255,.35)}
+.ranks span{background:rgba(255,255,255,.07)}.ranks span.on{background:linear-gradient(90deg,#ffb547,#ff7a2f);color:#1a1205}
+.toast{background:rgba(5,13,31,.95);border:1px solid var(--line)}
+a{color:inherit}
+details summary{color:#9fb6d8}
+.cpcard{border:1px solid rgba(56,189,248,.5);box-shadow:0 0 0 1px rgba(56,189,248,.15),0 0 30px -10px #38bdf8,var(--shadow);background:linear-gradient(160deg,rgba(14,40,80,.92),rgba(8,22,46,.92))}
+.qhead{font-family:'Orbitron',sans-serif;font-weight:700;color:#7dd3fc;letter-spacing:1px;font-size:15px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.qhead small{font-family:'Exo 2';color:#9fb6d8;letter-spacing:0}
+.herocv{width:100%;aspect-ratio:16/9;border-radius:18px;display:block;border:1px solid var(--line);box-shadow:0 10px 30px rgba(0,0,0,.4);margin-bottom:12px}
+.fwrap{aspect-ratio:16/9;border-radius:16px}
+.fwrap canvas{width:100%;height:100%}
+.qpanel{position:absolute;inset:4% 6%;background:rgba(6,18,40,.92);border:1px solid rgba(56,189,248,.55);border-radius:18px;padding:18px 20px;overflow:auto;box-shadow:0 0 40px -6px rgba(56,189,248,.5);backdrop-filter:blur(6px)}
+.qpanel .qtext{font-size:22px;margin:10px 0}
+.qpanel .opt{min-height:56px;font-size:18px}
+.overlay{background:rgba(3,10,25,.72)}
+.overlay h2{font-family:'Orbitron',sans-serif}
+.dpad button{background:rgba(56,189,248,.15);border:1px solid var(--line);color:#fff;width:84px;height:62px;font-size:28px}
+.mtile{min-height:150px}
+.svgcard{background:#0e2448}
+@media (max-width:760px){.lesson-head .fly{margin-left:0}.qpanel{inset:2%;padding:12px}.qpanel .qtext{font-size:18px}.qpanel .opt{min-height:44px;font-size:15px;padding:10px}}
+
 </style>
 </head>
 <body>
@@ -374,7 +456,7 @@ const MISSIONS=[
  {id:'school',icon:'📚',title:'Path to the Cockpit',sub:'Subjects & steps',color:'#d99a00'},
  {id:'maths',icon:'🔢',title:'Maths Hangar',sub:'Pilot maths missions',color:'#ef4d56'},
  {id:'quiz',icon:'🏆',title:'Quiz Tower',sub:'Test what you know',color:'#3b5bdb'},
- {id:'game',icon:'🎮',title:'Sky Flyer Game',sub:'Fly through the rings',color:'#9b59b6'},
+ {id:'game',icon:'🛫',title:'Mission Flight',sub:'Fly, answer, refuel!',color:'#22d3ee'},
  {id:'hangar',icon:'🪪',title:'My Pilot Licence',sub:'Badges & certificate',color:'#12324f'},
 ];
 const M=id=>MISSIONS.find(m=>m.id===id);
@@ -631,6 +713,8 @@ const BADGES={
  'quiz-instruments':{icon:'🥇',name:'Instruments Quiz Star',d:'7+ on the Instruments quiz'},
  'quiz-space':{icon:'🥇',name:'Space Quiz Star',d:'7+ on the Space quiz'},
  'quiz-history':{icon:'🥇',name:'History Quiz Star',d:'7+ on the History quiz'},
+ wings:{icon:'🪽',name:'Pilot Wings',d:'Completed a Mission Flight'},
+ perfect:{icon:'💎',name:'Perfect Flight',d:'8/8 checkpoints correct in a Mission Flight'},
  topgun:{icon:'🎮',name:'Top Flyer',d:'Scored 150+ in Sky Flyer'},
 };
 
@@ -744,7 +828,7 @@ const MOVIES=[
    VIEWS
    ===================================================================== */
 let cleanup=null;
-function lessonHead(m,intro){return `<div class="lesson-head" style="--c:${m.color};background:${m.color}"><a href="#home" class="back">⬅ Map</a><div class="lh-icon">${m.icon}</div><div><h1>${m.title}</h1><p>${intro} ${sayBtn(intro)}</p></div></div>`}
+function lessonHead(m,intro){const ft=TOPIC_OF[m.id];return `<div class="lesson-head" style="--c:${m.color};background:${m.color}"><a href="#home" class="back">⬅ Map</a><div class="lh-icon">${m.icon}</div><div><h1>${m.title}</h1><p>${intro} ${sayBtn(intro)}</p></div>${ft&&m.id!=='game'?`<a class="btn fly" href="#game-${ft}">🛫 Fly this as a mission</a>`:''}</div>`}
 function learnedBtn(id,quiz){const done=S.learned[id];return videoCards(id)+`<div class="learned-row"><button class="btn big ${done?'done':'green'}" data-learn="${id}">${done?'✅ Mission learned!':"✅ I've learned this! (+3 ⭐)"}</button>${quiz?`<a class="btn big alt" href="#quiz-${quiz}">🏆 Take the quiz</a>`:''}<a class="btn big grey" href="#home">🗺️ Back to map</a></div>`}
 
 // ---------- HOME ----------
@@ -757,13 +841,14 @@ function viewHome(){
   <p style="font-size:20px">This is <b>your</b> flight school. Explore the missions, collect ⭐ stars, earn badges and climb the ranks from <b>Cadet</b> all the way to <b>Captain</b>!</p>
   <p class="muted">Rank: <b>${r[2]} ${r[1]}</b> · ${n?`${n[0]-S.stars} more ⭐ to become <b>${n[1]}</b>`:'You reached the top rank!'} · Missions learned: <b>${learnedCount}/${LESSONS.length}</b></p>
   <div class="fact"><b>✨ Did you know?</b> <span id="factTxt"></span> <button class="say" id="factSay">🔊</button><br><button class="btn sm" id="factBtn" style="margin-top:8px">Another fact ✈️</button></div></div>
-  <div><svg viewBox="0 0 400 260" style="width:100%">${cloud(80,60,.9)}${cloud(320,90,.7)}${cloud(200,210,1.1,.9)}<g transform="translate(90 80) scale(1.1)"><g class="heroplane">${planeG('#fff','#ff8a3d')}</g></g><text x="300" y="50" font-size="40" class="mv-bob">☀️</text></svg>
-  <div class="center"><a class="btn big" href="#${(MISSIONS.find(m=>LESSONS.includes(m.id)&&!S.learned[m.id])||M('maths')).id}">🚀 ${learnedCount?'Continue':'Start'} my next mission</a></div></div>
+  <div><canvas id="heroCv" class="herocv"></canvas>
+  <div class="center"><a class="btn big" href="#${(MISSIONS.find(m=>LESSONS.includes(m.id)&&!S.learned[m.id])||M('maths')).id}">🚀 ${learnedCount?'Continue':'Start'} my next mission</a> <a class="btn big alt" href="#game">🛫 Play Mission Flight</a></div></div>
  </section>
  <h2 class="sec">🗺️ Your Flight Map</h2><div class="missions">${ms}</div>
  <p class="footer">Junior Pilot Academy · Progress saves on this device · Grown-ups: new missions can be added any time.</p>`;
  const showFact=()=>{const f=pick(FACTS);$('#factTxt').textContent=f;$('#factSay').dataset.say=f};
  showFact();$('#factBtn').onclick=showFact;
+ const hf=createFlight($('#heroCv'),{demo:true});hf.start();cleanup=()=>hf.stop();
 }
 
 // ---------- PARTS ----------
@@ -880,7 +965,7 @@ function viewLife(){
  </div><p>💡 Both pilots are fully trained to fly the plane. They take turns flying and checking each other's work.</p></div>
  <div class="card pad"><h2>🧭 Pilot jobs you could do</h2><div class="grid4">${JOBS.map(j=>`<div class="tile"><div class="ic">${j[0]}</div><h3>${j[1]}</h3><p>${j[2]}</p></div>`).join('')}</div></div>
  <div class="card pad"><h2>🗓️ What does a pilot do on a flight day?</h2><div class="timeline">${[['Briefing','Check the weather, route and fuel.'],['Walk-around','Inspect the plane: tyres, engines, wings.'],['Cockpit checks','Read the checklists with the other pilot.'],['Take-off','Talk to the tower, then full power!'],['Cruise','Navigate, watch the instruments, talk to air traffic control.'],['Landing','Line up with the runway and touch down gently.']].map((s,k)=>`<div class="tstep" data-i="${k+1}"><b>${s[0]}</b><br>${s[1]}</div>`).join('')}</div><a class="btn alt" href="#cinema-day">🎬 Watch "A Pilot's Day"</a></div>
- <div class="card pad center" style="background:linear-gradient(135deg,#fff7dc,#ffe6cc)"><h2>🙌 My Pilot Promise</h2><p style="font-size:24px;font-weight:600">"${promise}"</p><p>— Future Captain <b>${esc(pname())}</b></p><button class="btn" data-say="${esc(promise)}">🔊 Say it with me!</button></div>`+learnedBtn('life','pilot');
+ <div class="card pad center"><h2>🙌 My Pilot Promise</h2><p style="font-size:24px;font-weight:600">"${promise}"</p><p>— Future Captain <b>${esc(pname())}</b></p><button class="btn" data-say="${esc(promise)}">🔊 Say it with me!</button></div>`+learnedBtn('life','pilot');
 }
 
 // ---------- SKILLS LAB ----------
@@ -1381,6 +1466,156 @@ function speedRun(box){
   const iv=setInterval(()=>{if(!document.body.contains(box)){clearInterval(iv);return}const left=Math.ceil((end-Date.now())/1000);$('#srT').textContent='⏱ '+Math.max(0,left);if(left<=0){clearInterval(iv);const nb=bestScore('speed',score,s=>Math.floor(s/5));if(score>=20)award('speedrun');box.innerHTML=`<div class="explain ok">⚡ Time! You answered <b>${score}</b> correctly. ${nb?'🎉 NEW BEST!':''} ${score>=20?'Lightning-fast pilot brain!':'Keep practising to beat your best!'}</div><div class="center" style="margin-top:10px"><button class="btn" id="srAgain">🔁 Go again</button></div>`;$('#srAgain').onclick=()=>speedRun(box)}},200)};
 }
 
+// =====================================================================
+// v5: MISSION FLIGHT — pseudo-3D flight engine + gamified learning
+// =====================================================================
+const TOPIC_OF={parts:'parts',forces:'forces',types:'types',weather:'weather',airports:'airports',instruments:'instruments',space:'space',history:'history',life:'pilot',school:'pilot',skills:'fun',routes:'fun',cinema:'big',maths:'m2'};
+const MTOPICS=[...QTOPICS.filter(t=>t.id!=='big').map(t=>({id:t.id,name:t.name,icon:t.icon,kind:'Knowledge'})),{id:'big',name:'Mixed: every topic',icon:'🏅',kind:'Knowledge'},...[1,2,3,4,5].map(n=>({id:'m'+n,name:`Maths Level ${n}: ${MLEVELS[n-1].name}`,icon:MLEVELS[n-1].icon,kind:'Maths'}))];
+function mathMC(q){const A=q.a,opts=new Set();const lab=v=>q.type==='heading'?pad3(v):String(v);
+ if(q.type==='time'){const [h,m]=A.split(':').map(Number);[15,30,60,-15,-60,45,-30].forEach(d=>{const t=(((h*60+m+d)%1440)+1440)%1440;opts.add(fmtT(Math.floor(t/60),t%60))})}
+ else{const n=+A;const ds=Math.abs(n)>=1000?[100,1000,-100,-1000,500,-500]:Math.abs(n)>=100?[10,-10,20,100,-20,-100]:[1,-1,2,-2,10,-10,5];ds.forEach(d=>{let v=n+d;if(q.type==='heading')v=((v%360)+360)%360;if(v>=0||n<0)opts.add(lab(v))})}
+ opts.delete(lab(A));return shuffle([{t:lab(A),ok:true},...shuffle([...opts]).slice(0,3).map(t=>({t,ok:false}))])}
+function questionSource(topic){
+ if(/^m[1-5]$/.test(topic)){const L=+topic[1];return()=>{const q=pick(MATHS[L])();return{q:q.q,opts:mathMC(q),e:'<b>Working:</b> '+q.w}}}
+ const bank=topic==='big'?QUIZ:QUIZ.filter(x=>x.t===topic);let pool=[];
+ return()=>{if(!pool.length)pool=shuffle(bank);const x=pool.pop();return{q:x.q,opts:shuffle(x.o.map((t,k)=>({t,ok:k===0}))),e:x.e}}}
+
+function createFlight(cv,opt={}){
+ const ctx=cv.getContext('2d');const W=960,H=540;cv.width=W;cv.height=H;
+ const F=520,HOR=H*.42,CAMZ=9,CAMUP=1.7,GROUND=-14,TOTAL=opt.total||8;
+ const towers=Array.from({length:26},(_,i)=>({x:-420+i*34+Math.random()*14,h:14+Math.random()*46+(i===13?70:0),w:8+Math.random()*12,spire:i===13}));
+ const parts=Array.from({length:40},()=>({x:(Math.random()-.5)*36,y:(Math.random()-.5)*22,z:-Math.random()*80}));
+ const st={x:0,y:0,vx:0,vy:0,objs:[],t:0,speed:46,bank:0,score:0,combo:1,fuel:100,rings:0,ringsHit:0,cpSpawned:0,cpDone:0,correct:0,spawnR:.4,spawnC:0,spawnS:5,sinceCP:0,lastRX:0,lastRY:1,paused:false,over:false,keys:{},target:null,scroll:0,shake:0,flashC:null,flashT:0};
+ let raf=null,last=0;
+ const P=(x,y,z)=>{const d=CAMZ-z;if(d<=.6)return null;const s=F/d;return{x:W/2+(x-st.x*.82)*s,y:HOR-(y-(st.y*.82+CAMUP))*s,s,d}};
+ function spawn(){
+  st.spawnR-=1/60;
+ }
+ function update(dt){
+  st.t+=dt;const k=st.keys;let ax=(k.r?1:0)-(k.l?1:0),ay=(k.u?1:0)-(k.d?1:0);
+  if(opt.demo){const nx=st.objs.filter(o=>o.type==='ring'&&!o.hit&&o.z<-4).sort((a,b)=>b.z-a.z)[0];if(nx){ax=Math.max(-1,Math.min(1,(nx.x-st.x)/2));ay=Math.max(-1,Math.min(1,(nx.y-st.y)/2))}}
+  if(st.target){ax=Math.max(-1,Math.min(1,(st.target.x-st.x)/2.2));ay=Math.max(-1,Math.min(1,(st.target.y-st.y)/2.2))}
+  st.vx+=ax*55*dt;st.vy+=ay*45*dt;st.vx*=Math.pow(.06,dt);st.vy*=Math.pow(.06,dt);
+  st.x=Math.max(-11,Math.min(11,st.x+st.vx*dt));st.y=Math.max(-6,Math.min(8,st.y+st.vy*dt));
+  st.bank+=((Math.max(-.65,Math.min(.65,st.vx*.07)))-st.bank)*Math.min(1,dt*6);
+  const sp=st.speed+(opt.demo?0:Math.min(14,st.t*.15));st.scroll=(st.scroll+sp*dt)%12;
+  // spawning
+  st.spawnR-=dt;st.spawnC-=dt;st.spawnS-=dt;
+  if(st.spawnR<=0){st.spawnR=1.35;const nx=Math.max(-9,Math.min(9,st.lastRX+(Math.random()-.5)*9)),ny=Math.max(-4,Math.min(6,st.lastRY+(Math.random()-.5)*5));st.lastRX=nx;st.lastRY=ny;st.objs.push({type:'ring',x:nx,y:ny,z:-300});
+   if(!opt.demo&&++st.sinceCP>=5&&st.cpSpawned<TOTAL){st.sinceCP=0;st.cpSpawned++;st.objs.push({type:'cp',x:0,y:1,z:-330,n:st.cpSpawned})}}
+  if(st.spawnC<=0){st.spawnC=.45;st.objs.push({type:'cloud',x:(Math.random()<.5?-1:1)*(8+Math.random()*34),y:-4+Math.random()*18,z:-320,r:3+Math.random()*5,seed:Math.random()})}
+  if(!opt.demo&&st.spawnS<=0&&st.t>6){st.spawnS=3+Math.random()*2.5;st.objs.push({type:'storm',x:(Math.random()-.5)*18,y:-3+Math.random()*9,z:-320})}
+  for(const p of parts){p.z+=sp*dt;if(p.z>CAMZ-1){p.z-=80;p.x=(Math.random()-.5)*36;p.y=(Math.random()-.5)*22}}
+  for(const o of st.objs){const pz=o.z;o.z+=sp*dt;if(pz<0&&o.z>=0&&!o.hit){const dx=o.x-st.x,dy=o.y-st.y,dist=Math.hypot(dx,dy);
+   if(o.type==='ring'&&dist<2.7){o.hit=true;st.rings++;st.ringsHit++;st.score+=10*st.combo;if(!opt.demo){st.fuel=Math.min(100,st.fuel+2);beep('ok');opt.onRing&&opt.onRing()}}
+   if(o.type==='storm'&&dist<3.4){o.hit=true;if(!opt.demo){st.fuel=Math.max(0,st.fuel-15);st.combo=1;st.shake=.5;st.flashC='239,77,86';st.flashT=.4;beep('no')}}
+   if(o.type==='cp'){o.hit=true;st.paused=true;st.keys={};st.target=null;opt.onCheckpoint&&opt.onCheckpoint(o.n,TOTAL,res=>{st.cpDone++;if(res){st.correct++;st.fuel=Math.min(100,st.fuel+30);st.score+=50*st.combo;st.combo=Math.min(5,st.combo+1);st.flashC='34,197,94';st.flashT=.5}else{st.combo=1}st.paused=false;last=performance.now();if(st.cpDone>=TOTAL)end('complete')})}}}
+  st.objs=st.objs.filter(o=>o.z<CAMZ+2);
+  if(!opt.demo){st.fuel-=dt*1.7;if(st.fuel<=0){st.fuel=0;end('fuel')}}
+  if(st.shake>0)st.shake-=dt;if(st.flashT>0)st.flashT-=dt;
+ }
+ function end(why){if(st.over)return;st.over=true;opt.onEnd&&opt.onEnd({why,score:st.score,correct:st.correct,total:TOTAL,rings:st.ringsHit})}
+ function cloudBlob(x,y,R,dark,seed){const n=5;for(let i=0;i<n;i++){const a=seed*10+i*1.7,ox=Math.cos(a)*R*.55,oy=Math.sin(a*1.3)*R*.25,r=R*(.55+.25*((i*7+seed*13)%1));const g=ctx.createRadialGradient(x+ox,y+oy-r*.3,r*.1,x+ox,y+oy,r);if(dark){g.addColorStop(0,'rgba(90,100,120,.95)');g.addColorStop(1,'rgba(40,46,60,0)')}else{g.addColorStop(0,'rgba(255,255,255,.95)');g.addColorStop(.6,'rgba(235,242,252,.6)');g.addColorStop(1,'rgba(220,230,245,0)')}ctx.fillStyle=g;ctx.beginPath();ctx.arc(x+ox,y+oy,r,0,7);ctx.fill()}}
+ function drawWorld(){
+  const bx=-W,bw=W*3;
+  let g=ctx.createLinearGradient(0,-H,0,HOR);g.addColorStop(0,'#04122b');g.addColorStop(.55,'#123d78');g.addColorStop(.85,'#5d8fc9');g.addColorStop(1,'#f3c08a');ctx.fillStyle=g;ctx.fillRect(bx,-H,bw,HOR+H);
+  const sx=W*.74-st.x*2;let sg=ctx.createRadialGradient(sx,HOR-34,4,sx,HOR-34,200);sg.addColorStop(0,'rgba(255,240,200,1)');sg.addColorStop(.08,'rgba(255,220,150,.9)');sg.addColorStop(.35,'rgba(255,170,90,.25)');sg.addColorStop(1,'rgba(255,150,80,0)');ctx.fillStyle=sg;ctx.fillRect(sx-220,HOR-260,440,300);
+  g=ctx.createLinearGradient(0,HOR,0,H*2);g.addColorStop(0,'#e7b07a');g.addColorStop(.12,'#c98a52');g.addColorStop(1,'#6e4524');ctx.fillStyle=g;ctx.fillRect(bx,HOR,bw,H*2);
+  // skyline
+  ctx.fillStyle='rgba(60,70,100,.55)';for(const t of towers){const x=W/2+t.x-st.x*1.5;ctx.fillRect(x,HOR-t.h,t.w,t.h);if(t.spire){ctx.beginPath();ctx.moveTo(x,HOR-t.h);ctx.lineTo(x+t.w/2,HOR-t.h-70);ctx.lineTo(x+t.w,HOR-t.h);ctx.fill()}}
+  let hz=ctx.createLinearGradient(0,HOR-30,0,HOR+40);hz.addColorStop(0,'rgba(255,214,170,0)');hz.addColorStop(.5,'rgba(255,214,170,.55)');hz.addColorStop(1,'rgba(255,214,170,0)');ctx.fillStyle=hz;ctx.fillRect(bx,HOR-30,bw,70);
+  // ground grid
+  ctx.lineWidth=1;for(let i=0;i<34;i++){const z=-(i*12-st.scroll);const p=P(0,GROUND,z);if(!p)continue;ctx.strokeStyle=`rgba(255,235,200,${Math.max(0,.28-i*.008)})`;ctx.beginPath();ctx.moveTo(bx,p.y);ctx.lineTo(bx+bw,p.y);ctx.stroke()}
+  for(let x=-96;x<=96;x+=8){const a=P(x,GROUND,3),b=P(x,GROUND,-420);if(!a||!b)continue;ctx.strokeStyle='rgba(255,235,200,.12)';ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke()}
+ }
+ function drawObjs(){
+  const list=st.objs.slice().sort((a,b)=>a.z-b.z);
+  for(const o of list){const p=P(o.x,o.y,o.z);if(!p)continue;const fade=Math.min(1,(o.z+330)/60);ctx.globalAlpha=Math.max(0,fade);
+   if(o.type==='cloud'){cloudBlob(p.x,p.y,o.r*p.s,false,o.seed)}
+   else if(o.type==='storm'){cloudBlob(p.x,p.y,3.6*p.s,true,.37);if(Math.random()<.08){ctx.strokeStyle='#ffe066';ctx.lineWidth=Math.max(1,p.s*.12);ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x-p.s*.6,p.y+p.s*1.4);ctx.lineTo(p.x+p.s*.2,p.y+p.s*1.5);ctx.lineTo(p.x-p.s*.4,p.y+p.s*3);ctx.stroke()}}
+   else if(o.type==='ring'||o.type==='cp'){const R=(o.type==='cp'?7:2.4)*p.s;const lw=Math.max(2,(o.type==='cp'?.6:.42)*p.s);
+    if(o.hit&&o.type==='ring'){o.boom=(o.boom||0)+.04;ctx.globalAlpha=Math.max(0,1-o.boom*2);ctx.strokeStyle='#4ade80';ctx.lineWidth=lw;ctx.beginPath();ctx.arc(p.x,p.y,R*(1+o.boom),0,7);ctx.stroke();ctx.globalAlpha=1;continue}
+    const gg=ctx.createLinearGradient(p.x,p.y-R,p.x,p.y+R);if(o.type==='cp'){gg.addColorStop(0,'#7dd3fc');gg.addColorStop(1,'#2563eb')}else{gg.addColorStop(0,'#fff1b8');gg.addColorStop(.5,'#ffc23d');gg.addColorStop(1,'#c26a12')}
+    ctx.strokeStyle=gg;ctx.lineWidth=lw;if(p.d<80){ctx.shadowColor=o.type==='cp'?'#38bdf8':'#ffb020';ctx.shadowBlur=18}ctx.beginPath();ctx.arc(p.x,p.y,R,0,7);ctx.stroke();ctx.shadowBlur=0;
+    ctx.strokeStyle='rgba(255,255,255,.55)';ctx.lineWidth=lw*.25;ctx.beginPath();ctx.arc(p.x,p.y,R-lw*.2,Math.PI*1.1,Math.PI*1.6);ctx.stroke();
+    if(o.type==='cp'){ctx.fillStyle='rgba(56,189,248,.12)';ctx.beginPath();ctx.arc(p.x,p.y,R,0,7);ctx.fill();ctx.fillStyle='#e0f2fe';ctx.font=`700 ${Math.max(10,p.s*2.4)}px Orbitron, sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('?',p.x,p.y-R*.05);ctx.font=`700 ${Math.max(8,p.s*.9)}px Orbitron, sans-serif`;ctx.fillText('CHECKPOINT',p.x,p.y+R*.55)}}
+   ctx.globalAlpha=1}
+  // speed streaks
+  ctx.strokeStyle='rgba(255,255,255,.22)';ctx.lineWidth=1.5;for(const q of parts){const a=P(q.x+st.x,q.y+st.y,q.z),b=P(q.x+st.x,q.y+st.y,q.z+2.5);if(a&&b){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke()}}
+ }
+ function drawPlane(){const p=P(st.x,st.y,0);if(!p)return;const k=p.s/57.8;
+  ctx.save();ctx.translate(p.x,p.y);ctx.rotate(st.bank);ctx.scale(k,k);
+  ctx.fillStyle='rgba(0,0,0,.18)';ctx.beginPath();ctx.ellipse(0,40,110,10,0,0,7);ctx.fill();
+  let g=ctx.createLinearGradient(0,-10,0,16);g.addColorStop(0,'#f5f8fc');g.addColorStop(1,'#8d9bad');ctx.fillStyle=g;ctx.strokeStyle='#33414f';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(-128,-6);ctx.lineTo(-20,2);ctx.lineTo(20,2);ctx.lineTo(128,-6);ctx.lineTo(128,0);ctx.lineTo(20,11);ctx.lineTo(-20,11);ctx.lineTo(-128,0);ctx.closePath();ctx.fill();ctx.stroke();
+  ctx.fillStyle='#d7dee8';[[-128,-6],[124,-6]].forEach(([x,y])=>{ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+2,y-16);ctx.lineTo(x+5,y-16);ctx.lineTo(x+4,y);ctx.fill();ctx.stroke()});
+  ctx.fillStyle=g;ctx.beginPath();ctx.moveTo(-52,-15);ctx.lineTo(52,-15);ctx.lineTo(52,-10);ctx.lineTo(-52,-10);ctx.closePath();ctx.fill();ctx.stroke();
+  let fg=ctx.createLinearGradient(0,-84,0,-18);fg.addColorStop(0,'#ff8a3d');fg.addColorStop(1,'#b4400f');ctx.fillStyle=fg;ctx.beginPath();ctx.moveTo(-6,-18);ctx.lineTo(-3,-84);ctx.lineTo(5,-84);ctx.lineTo(7,-18);ctx.closePath();ctx.fill();ctx.stroke();
+  let bg=ctx.createRadialGradient(-8,-10,4,0,0,28);bg.addColorStop(0,'#ffffff');bg.addColorStop(.7,'#d4dce6');bg.addColorStop(1,'#93a1b2');ctx.fillStyle=bg;ctx.beginPath();ctx.arc(0,0,26,0,7);ctx.fill();ctx.stroke();
+  ctx.fillStyle='#2b3440';ctx.beginPath();ctx.arc(0,2,6,0,7);ctx.fill();
+  for(const ex of [-60,60]){let eg=ctx.createRadialGradient(ex-4,12,2,ex,16,15);eg.addColorStop(0,'#e8eef5');eg.addColorStop(1,'#5f6c7c');ctx.fillStyle=eg;ctx.beginPath();ctx.arc(ex,16,15,0,7);ctx.fill();ctx.stroke();ctx.fillStyle='#1d232b';ctx.beginPath();ctx.arc(ex,16,9,0,7);ctx.fill();
+   const fl=.6+Math.random()*.4;let og=ctx.createRadialGradient(ex,16,0,ex,16,12);og.addColorStop(0,`rgba(255,200,120,${.9*fl})`);og.addColorStop(1,'rgba(255,120,40,0)');ctx.fillStyle=og;ctx.beginPath();ctx.arc(ex,16,12,0,7);ctx.fill()}
+  const blink=(st.t%1.2)<.12;ctx.fillStyle='#ff3b3b';ctx.beginPath();ctx.arc(-128,-4,3.5,0,7);ctx.fill();ctx.fillStyle='#2bff7a';ctx.beginPath();ctx.arc(128,-4,3.5,0,7);ctx.fill();if(blink){ctx.fillStyle='#fff';ctx.shadowColor='#fff';ctx.shadowBlur=14;ctx.beginPath();ctx.arc(0,-84,3,0,7);ctx.fill();ctx.shadowBlur=0}
+  ctx.restore()}
+ function drawHUD(){if(opt.demo)return;ctx.save();ctx.font='700 15px Orbitron, sans-serif';ctx.textBaseline='top';
+  ctx.fillStyle='rgba(4,18,43,.55)';ctx.fillRect(16,14,250,64);ctx.strokeStyle='rgba(56,189,248,.6)';ctx.strokeRect(16,14,250,64);
+  ctx.fillStyle='#7dd3fc';ctx.fillText('FUEL',28,22);ctx.fillStyle='rgba(255,255,255,.15)';ctx.fillRect(88,24,164,12);const fc=st.fuel>50?'#22c55e':st.fuel>25?'#facc15':'#ef4444';ctx.fillStyle=fc;ctx.fillRect(88,24,164*st.fuel/100,12);
+  ctx.fillStyle='#7dd3fc';ctx.fillText('SCORE',28,50);ctx.fillStyle='#fff';ctx.fillText(String(st.score),100,50);if(st.combo>1){ctx.fillStyle='#ffc23d';ctx.fillText('×'+st.combo,200,50)}
+  ctx.fillStyle='rgba(4,18,43,.55)';ctx.fillRect(W-16-260,14,260,40);ctx.strokeStyle='rgba(56,189,248,.6)';ctx.strokeRect(W-16-260,14,260,40);ctx.fillStyle='#7dd3fc';ctx.fillText('CHECKPOINTS',W-264,27);
+  for(let i=0;i<TOTAL;i++){ctx.fillStyle=i<st.cpDone?'#22c55e':'rgba(255,255,255,.25)';ctx.beginPath();ctx.arc(W-128+i*14,34,5,0,7);ctx.fill()}
+  // reticle
+  ctx.strokeStyle='rgba(125,211,252,.35)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(W/2-30,HOR+20);ctx.lineTo(W/2-10,HOR+20);ctx.moveTo(W/2+10,HOR+20);ctx.lineTo(W/2+30,HOR+20);ctx.stroke();
+  if(st.fuel<25&&(st.t%.8)<.4){ctx.fillStyle='#ef4444';ctx.font='800 22px Orbitron, sans-serif';ctx.textAlign='center';ctx.fillText('LOW FUEL — HIT RINGS & CHECKPOINTS!',W/2,H-44)}
+  ctx.restore()}
+ function frame(t){const dt=Math.min(.05,(t-last)/1000||0);last=t;if(!st.paused&&!st.over)update(dt);
+  ctx.save();if(st.shake>0)ctx.translate((Math.random()-.5)*12,(Math.random()-.5)*12);
+  ctx.save();ctx.translate(W/2,HOR+60);ctx.rotate(-st.bank*.45);ctx.translate(-W/2,-(HOR+60));drawWorld();drawObjs();ctx.restore();
+  drawPlane();drawHUD();if(st.flashT>0&&st.flashC){ctx.fillStyle=`rgba(${st.flashC},${st.flashT*.5})`;ctx.fillRect(0,0,W,H)}
+  ctx.restore();if(!st.over||opt.demo)raf=requestAnimationFrame(frame)}
+ // input
+ const kd=e=>{const m={ArrowLeft:'l',a:'l',A:'l',ArrowRight:'r',d:'r',D:'r',ArrowUp:'u',w:'u',W:'u',ArrowDown:'d',s:'d',S:'d'}[e.key];if(m&&!opt.demo&&!st.paused){st.keys[m]=1;e.preventDefault()}};
+ const ku=e=>{const m={ArrowLeft:'l',a:'l',A:'l',ArrowRight:'r',d:'r',D:'r',ArrowUp:'u',w:'u',W:'u',ArrowDown:'d',s:'d',S:'d'}[e.key];if(m)st.keys[m]=0};
+ const toWorld=e=>{const r=cv.getBoundingClientRect();const sx=(e.clientX-r.left)/r.width*W,sy=(e.clientY-r.top)/r.height*H;return{x:Math.max(-11,Math.min(11,(sx-W/2)/40)),y:Math.max(-6,Math.min(8,(HOR+92-sy)/34))}};
+ const pd=e=>{if(opt.demo||st.paused)return;st.target=toWorld(e);try{cv.setPointerCapture(e.pointerId)}catch(_){}};
+ const pm=e=>{if(st.target)st.target=toWorld(e)};const pu=()=>{st.target=null};
+ if(!opt.demo){document.addEventListener('keydown',kd);document.addEventListener('keyup',ku);cv.addEventListener('pointerdown',pd);cv.addEventListener('pointermove',pm);cv.addEventListener('pointerup',pu);cv.addEventListener('pointercancel',pu)}
+ return{st,start(){last=performance.now();raf=requestAnimationFrame(frame)},stop(){cancelAnimationFrame(raf);document.removeEventListener('keydown',kd);document.removeEventListener('keyup',ku)},hold(k,v){if(!st.paused)st.keys[k]=v}};
+}
+
+function viewMission(arg){
+ const m=M('game');const tp=MTOPICS.find(t=>t.id===arg);
+ if(!tp){const grp=k=>MTOPICS.filter(t=>t.kind===k).map(t=>`<a class="mission mtile" href="#game-${t.id}" style="--c:${k==='Maths'?'#ef4d56':'#38bdf8'}"><span class="micon">${t.icon}</span><b>${t.name}</b><small>Best: ${S.best['mission-'+t.id]||0}/8 checkpoints</small>${(S.best['mission-'+t.id]||0)>=8?'<span class="tick">🏆</span>':''}</a>`).join('');
+  app.innerHTML=lessonHead(m,'Fly through the golden rings to score. Every few rings you reach a blue CHECKPOINT: answer the question correctly to refuel and power up your combo. Run out of fuel and the mission ends!')+`
+  <div class="card pad"><h2>🧠 Knowledge missions</h2><div class="missions">${grp('Knowledge')}</div></div>
+  <div class="card pad"><h2>🔢 Maths missions</h2><div class="missions">${grp('Maths')}</div></div>
+  <div class="card pad"><h2>🕹️ How to fly</h2><div class="grid3"><div class="tile"><div class="ic">⌨️</div><h3>Keyboard</h3><p>Arrow keys or W A S D to steer.</p></div><div class="tile"><div class="ic">👆</div><h3>Touch</h3><p>Hold and drag your finger where you want the plane to go — or use the arrow pad.</p></div><div class="tile"><div class="ic">⛽</div><h3>Fuel</h3><p>Rings give a little fuel. Right answers at checkpoints give LOTS. Storm clouds take fuel away!</p></div></div><p class="muted">Prefer the old 2D game? <a href="#classic">Play Classic Sky Flyer</a>.</p></div>`;return}
+ const nextQ=questionSource(tp.id);
+ app.innerHTML=`<div class="lesson-head" style="background:#0f2a52"><a href="#game" class="back">⬅ Missions</a><div class="lh-icon">${tp.icon}</div><div><h1>Mission: ${tp.name}</h1><p>Steer through rings, answer checkpoints, keep your fuel up!</p></div></div>
+ <div class="card pad" style="padding:10px"><div class="gamewrap fwrap"><canvas id="fc"></canvas><div class="qpanel hidden" id="qp"></div><div class="overlay" id="fov"><div><h2>🛫 Ready for take-off?</h2><p>${tp.name} · 8 checkpoints</p><p class="muted">Best: ${S.best['mission-'+tp.id]||0}/8</p><button class="btn big" id="fgo">▶ Start engines</button></div></div></div>
+ <div class="gctl dpad"><button data-k="l">⬅️</button><button data-k="u">⬆️</button><button data-k="d">⬇️</button><button data-k="r">➡️</button></div></div>`;
+ const qp=$('#qp');let fl=null;
+ const onCheckpoint=(n,total,done)=>{const Q=nextQ();qp.classList.remove('hidden');
+  qp.innerHTML=`<div class="qhead">CHECKPOINT ${n}/${total} <span>${sayBtn(Q.q)}</span></div><div class="qtext">${Q.q}</div><div class="opts">${Q.opts.map((o,j)=>`<button class="opt" data-j="${j}"><span class="k">${'ABCD'[j]}</span>${o.t}</button>`).join('')}</div><div class="qx"></div>`;
+  if(S.sound)speak(Q.q);
+  $$('.opt',qp).forEach(b=>b.onclick=()=>{const o=Q.opts[+b.dataset.j];o.ok?beep('ok'):beep('no');$$('.opt',qp).forEach((x,j)=>{x.disabled=true;x.classList.add(Q.opts[j].ok?'right':(x===b?'wrong':'dim'))});
+   $('.qx',qp).innerHTML=`<div class="explain ${o.ok?'ok':'no'}">${o.ok?'✅ Correct! +30 fuel, combo up! ':'❌ Not quite. '}${Q.e}</div><div class="center" style="margin-top:10px"><button class="btn big" id="qgo">Continue flight ▶</button></div>`;
+   $('#qgo').onclick=()=>{stopSpeak();qp.classList.add('hidden');done(o.ok)}})};
+ const onEnd=r=>{const pass=r.why==='complete';const nb=bestScore('mission-'+tp.id,r.correct,s=>s);if(pass)award('wings');if(r.correct===r.total)award('perfect');if(pass&&r.correct>=6)confetti(60);
+  setTimeout(()=>{const ov=$('#fov');if(!ov)return;ov.classList.remove('hidden');ov.innerHTML=`<div><h2>${pass?'🏁 Mission complete!':'⛽ Out of fuel!'}</h2><p style="font-size:22px">Checkpoints correct: <b>${r.correct}/${r.total}</b> · Score: <b>${r.score}</b> · Rings: <b>${r.rings}</b></p><p>${nb?'🎉 New best! ':''}${pass?(r.correct===r.total?'PERFECT FLIGHT, Captain '+esc(pname())+'!':'Great flying, '+esc(pname())+'!'):'Tip: right answers at checkpoints refuel you fast!'}</p><div class="row gap" style="justify-content:center"><button class="btn big" id="fagain">🔁 Fly again</button><a class="btn big alt" href="#game">🗺️ Other missions</a></div></div>`;$('#fagain').onclick=()=>viewMission(tp.id)},pass?400:600)};
+ fl=createFlight($('#fc'),{onCheckpoint,onEnd,total:8});
+ // first frame
+ fl.st.paused=true;fl.start();
+ $('#fgo').onclick=()=>{$('#fov').classList.add('hidden');fl.st.paused=false};
+ $$('.dpad button').forEach(b=>{const k=b.dataset.k;b.addEventListener('pointerdown',e=>{e.preventDefault();fl.hold(k,1)});['pointerup','pointerleave','pointercancel'].forEach(ev=>b.addEventListener(ev,()=>fl.hold(k,0)))});
+ cleanup=()=>fl.stop();
+}
+
+// in-lesson checkpoints: quick questions between sections
+function addCheckpoints(topic){if(!topic||/^m/.test(topic))return;const cards=$$('#app > .card').filter(c=>!c.querySelector('.vcard'));const idx=[0,2,4].filter(i=>i<cards.length-0);if(!idx.length)return;const nq=questionSource(topic);S.best.cp=S.best.cp||{};
+ idx.forEach((i,n)=>{const Q=nq();const el=document.createElement('div');el.className='card pad cpcard';el.innerHTML=`<div class="qhead">⚡ CHECKPOINT ${n+1} <small>— answer to earn ⭐</small> ${sayBtn(Q.q)}</div><div class="qtext" style="font-size:22px">${Q.q}</div><div class="opts">${Q.opts.map((o,j)=>`<button class="opt" data-j="${j}"><span class="k">${'ABCD'[j]}</span>${o.t}</button>`).join('')}</div><div class="qx"></div>`;
+  $$('.opt',el).forEach(b=>b.onclick=()=>{const o=Q.opts[+b.dataset.j];$$('.opt',el).forEach((x,j)=>{x.disabled=true;x.classList.add(Q.opts[j].ok?'right':(x===b?'wrong':'dim'))});if(o.ok){beep('ok');if(!S.best.cp[Q.q]){S.best.cp[Q.q]=1;addStars(1,'Checkpoint!')}}else beep('no');$('.qx',el).innerHTML=`<div class="explain ${o.ok?'ok':'no'}">${o.ok?'✅ Correct! ':'❌ Not quite. '}${Q.e}</div>`});
+  cards[i].after(el)})}
+
 // ---------- name / avatar ----------
 function askName(edit){const avs=['🧑‍✈️','👨‍✈️','👦','🦅','🚀','🐯','🦁','🤖'];let av=S.avatar;
  const mm=modal(`<div class="center"><div style="font-size:60px">✈️</div><h2>${edit?'Edit your pilot profile':'Welcome to Junior Pilot Academy!'}</h2><p>${edit?'':'Every pilot needs a name on their licence. '}What is your name, future Captain?</p><input class="txt" id="nm" maxlength="20" placeholder="Your name" value="${esc(S.name)}"><p style="margin-bottom:0">Pick your pilot picture:</p><div class="avatars" style="justify-content:center">${avs.map(a=>`<button data-a="${a}" class="${a===av?'on':''}">${a}</button>`).join('')}</div><button class="btn big green" id="go">${edit?'Save ✅':"Let's fly! 🛫"}</button></div>`);
@@ -1389,10 +1624,10 @@ function askName(edit){const avs=['🧑‍✈️','👨‍✈️','👦','🦅',
  $('#go',mm).onclick=done;$('#nm',mm).onkeydown=e=>{if(e.key==='Enter')done()};setTimeout(()=>$('#nm',mm).focus(),100)}
 
 // ---------- router & global clicks ----------
-const VIEWS={home:viewHome,parts:viewParts,forces:viewForces,types:viewTypes,weather:viewWeather,airports:viewAirports,instruments:viewInstruments,routes:viewRoutes,space:viewSpace,history:viewHistory,cinema:viewCinema,life:viewLife,skills:viewSkills,school:viewSchool,maths:viewMaths,quiz:viewQuiz,game:viewGame,hangar:viewHangar};
+const VIEWS={home:viewHome,parts:viewParts,forces:viewForces,types:viewTypes,weather:viewWeather,airports:viewAirports,instruments:viewInstruments,routes:viewRoutes,space:viewSpace,history:viewHistory,cinema:viewCinema,life:viewLife,skills:viewSkills,school:viewSchool,maths:viewMaths,quiz:viewQuiz,game:viewMission,classic:viewGame,hangar:viewHangar};
 function route(){stopSpeak();if(cleanup){try{cleanup()}catch(e){}cleanup=null}
  const h=(location.hash||'#home').slice(1);const k=h.indexOf('-');const name=k>0?h.slice(0,k):h,arg=k>0?h.slice(k+1):'';
- (VIEWS[name]||viewHome)(arg);window.scrollTo(0,0)}
+ (VIEWS[name]||viewHome)(arg);window.scrollTo(0,0);if(TOPIC_OF[name]&&name!=='maths'&&!(name==='cinema'&&arg)){try{addCheckpoints(TOPIC_OF[name])}catch(e){}}}
 window.addEventListener('hashchange',route);
 document.addEventListener('click',e=>{
  const s=e.target.closest('[data-say]');if(s){speak(s.dataset.say);return}
