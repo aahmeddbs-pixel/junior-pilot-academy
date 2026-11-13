@@ -358,6 +358,20 @@ details summary{color:#9fb6d8}
 .dpad button{background:rgba(56,189,248,.15);border:1px solid var(--line);color:#fff;width:84px;height:62px;font-size:28px}
 .mtile{min-height:150px}
 .svgcard{background:#0e2448}
+.gamewrap{position:relative}
+.fsbtn{position:absolute;right:10px;bottom:10px;z-index:6;border:1px solid rgba(125,211,252,.6);background:rgba(5,13,31,.75);color:#e0f2fe;font-family:'Exo 2',sans-serif;font-weight:700;font-size:16px;padding:8px 14px;border-radius:12px;backdrop-filter:blur(4px)}
+.fsbtn:hover{background:rgba(56,189,248,.35)}
+.fshint{display:none;color:#9fb6d8;font-size:14px;margin-bottom:6px}
+.fsbox:fullscreen{background:#050d1f;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px!important;margin:0;border-radius:0;border:0}
+.fsbox:-webkit-full-screen{background:#050d1f;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px!important;margin:0;border-radius:0;border:0}
+.fsbox.fsfake{position:fixed;inset:0;z-index:100;background:#050d1f;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px!important;margin:0;border-radius:0;border:0}
+.fsbox:fullscreen .gamewrap{width:min(calc(100vw - 16px),calc((100vh - 110px) * 16 / 9));aspect-ratio:16/9}
+.fsbox:-webkit-full-screen .gamewrap{width:min(calc(100vw - 16px),calc((100vh - 110px) * 16 / 9));aspect-ratio:16/9}
+.fsbox.fsfake .gamewrap{width:min(calc(100vw - 16px),calc((100vh - 110px) * 16 / 9));aspect-ratio:16/9}
+.fsbox:fullscreen .fshint{display:block}.fsbox:-webkit-full-screen .fshint{display:block}.fsbox.fsfake .fshint{display:block}
+.fsbox:fullscreen .gctl{margin-top:8px}.fsbox.fsfake .gctl{margin-top:8px}
+.gamewrap canvas#gc{width:100%;height:100%}
+body.noscroll{overflow:hidden}body.noscroll .top{display:none}body.noscroll main{z-index:200}
 select.sel{font-family:inherit;font-size:17px;padding:8px 10px;border-radius:12px;background:rgba(0,0,0,.35);color:#fff;border:1px solid rgba(125,190,255,.35);margin:0 6px}
 .apcard{display:flex;flex-direction:column;gap:2px}.apcard p{margin:6px 0 0;font-size:16px}
 .apcode{font-family:'Orbitron',sans-serif;font-size:30px;font-weight:800;color:#7dd3fc;letter-spacing:2px}
@@ -1205,7 +1219,7 @@ function viewQuiz(topic){
 function viewGame(){
  const m=M('game');
  app.innerHTML=lessonHead(m,'Fly through the golden rings and grab the stars — but steer clear of the storm clouds! Use the arrow keys, the buttons, or drag on the screen.')+`
- <div class="card pad"><div class="gamewrap"><canvas id="gc" width="800" height="450"></canvas><div class="overlay" id="gov"><div><h2>🎮 Sky Flyer</h2><p>🟡 Ring = 10 points · ⭐ Star = 5 points · ⛈️ Storm = lose a life</p><p>Best score: <b>${S.best.game||0}</b></p><button class="btn big" id="gstart">▶ Take off!</button></div></div></div>
+ <div class="card pad fsbox" id="fsbox"><div class="fshint">Press <b>Esc</b> or tap ✕ to exit full screen</div><div class="gamewrap"><button class="fsbtn" id="fsBtn">⛶ Full screen</button><canvas id="gc" width="800" height="450"></canvas><div class="overlay" id="gov"><div><h2>🎮 Sky Flyer</h2><p>🟡 Ring = 10 points · ⭐ Star = 5 points · ⛈️ Storm = lose a life</p><p>Best score: <b>${S.best.game||0}</b></p><button class="btn big" id="gstart">▶ Take off!</button></div></div></div>
  <div class="gctl"><button id="gUp">⬆️</button><button id="gDn">⬇️</button></div></div><div class="learned-row"><a class="btn big grey" href="#home">🗺️ Back to map</a></div>`;
  const cv=$('#gc'),cx=cv.getContext('2d');let st=null,raf=null,last=0,keys={};
  const reset=()=>({py:225,vy:0,objs:[],t:0,score:0,lives:3,time:60,spawnR:0,spawnS:0,spawnC:1.5,flash:0,run:true,bg:0,target:null});
@@ -1246,7 +1260,7 @@ function viewGame(){
  const hold=(id,k)=>{const b=$(id);b.addEventListener('pointerdown',e=>{e.preventDefault();keys[k]=1});['pointerup','pointerleave','pointercancel'].forEach(ev=>b.addEventListener(ev,()=>keys[k]=0))};hold('#gUp','up');hold('#gDn','dn');
  const toY=e=>{const r=cv.getBoundingClientRect();return (e.clientY-r.top)/r.height*450};
  cv.addEventListener('pointerdown',e=>{if(st&&st.run){st.target=toY(e);cv.setPointerCapture(e.pointerId)}});cv.addEventListener('pointermove',e=>{if(st&&st.target!=null)st.target=toY(e)});cv.addEventListener('pointerup',()=>{if(st)st.target=null});
- cleanup=()=>{cancelAnimationFrame(raf);document.removeEventListener('keydown',kd);document.removeEventListener('keyup',ku)};
+ const fsOff=fsToggle($('#fsbox'),$('#fsBtn'));cleanup=()=>{cancelAnimationFrame(raf);document.removeEventListener('keydown',kd);document.removeEventListener('keyup',ku);fsOff()};
  // first frame preview
  st=reset();st.run=false;const g=cx.createLinearGradient(0,0,0,450);g.addColorStop(0,'#3d9be0');g.addColorStop(1,'#bfe9ff');cx.fillStyle=g;cx.fillRect(0,0,800,450);drawPlane(225,0);
 }
@@ -1675,7 +1689,7 @@ function viewMission(arg){
   <div class="card pad"><h2>🕹️ How to fly</h2><div class="grid3"><div class="tile"><div class="ic">⌨️</div><h3>Keyboard</h3><p>Arrow keys or W A S D to steer.</p></div><div class="tile"><div class="ic">👆</div><h3>Touch</h3><p>Hold and drag your finger where you want the plane to go — or use the arrow pad.</p></div><div class="tile"><div class="ic">⛽</div><h3>Fuel</h3><p>Rings give a little fuel. Right answers at checkpoints give LOTS. Storm clouds take fuel away!</p></div></div><p class="muted">Prefer the old 2D game? <a href="#classic">Play Classic Sky Flyer</a>.</p></div>`;return}
  const nextQ=questionSource(tp.id);
  app.innerHTML=`<div class="lesson-head" style="background:#0f2a52"><a href="#game" class="back">⬅ Missions</a><div class="lh-icon">${tp.icon}</div><div><h1>Mission: ${tp.name}</h1><p>Steer through rings, answer checkpoints, keep your fuel up!</p></div></div>
- <div class="card pad" style="padding:10px"><div class="gamewrap fwrap"><canvas id="fc"></canvas><div class="qpanel hidden" id="qp"></div><div class="overlay" id="fov"><div><h2>🛫 Ready for take-off?</h2><p>${tp.name} · 8 checkpoints</p><p class="muted">Best: ${S.best['mission-'+tp.id]||0}/8</p><div class="row gap" style="justify-content:center"><button class="btn big" id="fgo">▶ Normal · 8 checkpoints</button><button class="btn big alt" id="fgoAce">🦅 ACE · 12 checkpoints, timer</button></div><p class="muted" style="margin-top:10px">ACE mode: faster plane, more storms, 20 seconds per question. Best ACE: ${S.best['ace-'+tp.id]||0}/12</p></div></div></div>
+ <div class="card pad fsbox" id="fsbox" style="padding:10px"><div class="fshint">Press <b>Esc</b> or tap ✕ to exit full screen</div><div class="gamewrap fwrap"><button class="fsbtn" id="fsBtn">⛶ Full screen</button><canvas id="fc"></canvas><div class="qpanel hidden" id="qp"></div><div class="overlay" id="fov"><div><h2>🛫 Ready for take-off?</h2><p>${tp.name} · 8 checkpoints</p><p class="muted">Best: ${S.best['mission-'+tp.id]||0}/8</p><div class="row gap" style="justify-content:center"><button class="btn big" id="fgo">▶ Normal · 8 checkpoints</button><button class="btn big alt" id="fgoAce">🦅 ACE · 12 checkpoints, timer</button></div><p class="muted" style="margin-top:10px">ACE mode: faster plane, more storms, 20 seconds per question. Best ACE: ${S.best['ace-'+tp.id]||0}/12</p></div></div></div>
  <div class="gctl dpad"><button data-k="l">⬅️</button><button data-k="u">⬆️</button><button data-k="d">⬇️</button><button data-k="r">➡️</button></div></div>`;
  const qp=$('#qp');let fl=null;
  const onCheckpoint=(n,total,done)=>{const Q=nextQ();qp.classList.remove('hidden');
@@ -1693,8 +1707,22 @@ function viewMission(arg){
  fl=createFlight($('#fc'),{onCheckpoint,onEnd,total:8});fl.st.paused=true;fl.start();
  $('#fgo').onclick=()=>launch(false);$('#fgoAce').onclick=()=>launch(true);
  $$('.dpad button').forEach(b=>{const k=b.dataset.k;b.addEventListener('pointerdown',e=>{e.preventDefault();fl.hold(k,1)});['pointerup','pointerleave','pointercancel'].forEach(ev=>b.addEventListener(ev,()=>fl.hold(k,0)))});
- cleanup=()=>{clearInterval(qTimer);fl&&fl.stop()};
+ const fsOff=fsToggle($('#fsbox'),$('#fsBtn'));
+ cleanup=()=>{clearInterval(qTimer);fl&&fl.stop();fsOff()};
 }
+
+// ---------- full screen for games ----------
+function fsToggle(el,btn){const d=document;const native=()=>d.fullscreenElement||d.webkitFullscreenElement;const isFs=()=>!!native()||el.classList.contains('fsfake');
+ const upd=()=>{btn.innerHTML=isFs()?'✕ Exit full screen':'⛶ Full screen'};
+ const fake=on=>{el.classList.toggle('fsfake',on);d.body.classList.toggle('noscroll',on);upd()};
+ btn.onclick=e=>{e.stopPropagation();if(isFs()){if(el.classList.contains('fsfake'))fake(false);else{try{(d.exitFullscreen||d.webkitExitFullscreen).call(d)}catch(_){}}return}
+  const req=el.requestFullscreen||el.webkitRequestFullscreen;if(!req){fake(true);return}
+  let p;try{p=req.call(el)}catch(_){fake(true);return}
+  if(p&&p.catch)p.catch(()=>fake(true));setTimeout(()=>{if(!isFs())fake(true)},400)};
+ const onChange=()=>upd();d.addEventListener('fullscreenchange',onChange);d.addEventListener('webkitfullscreenchange',onChange);
+ const onKey=e=>{if(e.key==='Escape'&&el.classList.contains('fsfake'))fake(false)};d.addEventListener('keydown',onKey);
+ upd();
+ return()=>{d.removeEventListener('fullscreenchange',onChange);d.removeEventListener('webkitfullscreenchange',onChange);d.removeEventListener('keydown',onKey);if(native()){try{(d.exitFullscreen||d.webkitExitFullscreen).call(d)}catch(_){}}el.classList.remove('fsfake');d.body.classList.remove('noscroll')}}
 
 // in-lesson checkpoints: quick questions between sections
 function addCheckpoints(topic){if(!topic||/^m/.test(topic))return;const cards=$$('#app > .card').filter(c=>!c.querySelector('.vcard'));const idx=[0,2,4].filter(i=>i<cards.length-0);if(!idx.length)return;const nq=questionSource(topic);S.best.cp=S.best.cp||{};
