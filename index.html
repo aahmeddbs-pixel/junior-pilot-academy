@@ -358,6 +358,11 @@ details summary{color:#9fb6d8}
 .dpad button{background:rgba(56,189,248,.15);border:1px solid var(--line);color:#fff;width:84px;height:62px;font-size:28px}
 .mtile{min-height:150px}
 .svgcard{background:#0e2448}
+select.sel{font-family:inherit;font-size:17px;padding:8px 10px;border-radius:12px;background:rgba(0,0,0,.35);color:#fff;border:1px solid rgba(125,190,255,.35);margin:0 6px}
+.apcard{display:flex;flex-direction:column;gap:2px}.apcard p{margin:6px 0 0;font-size:16px}
+.apcode{font-family:'Orbitron',sans-serif;font-size:30px;font-weight:800;color:#7dd3fc;letter-spacing:2px}
+.apicao{font-family:'Orbitron',sans-serif;font-size:15px;color:#ffc23d;border:1px solid rgba(255,194,61,.5);border-radius:8px;padding:2px 8px;align-self:center}
+.qtimer{margin-left:auto;color:#facc15}
 @media (max-width:760px){.lesson-head .fly{margin-left:0}.qpanel{inset:2%;padding:12px}.qpanel .qtext{font-size:18px}.qpanel .opt{min-height:44px;font-size:15px;padding:10px}}
 
 </style>
@@ -450,6 +455,9 @@ const MISSIONS=[
  {id:'routes',icon:'🌍',title:'World Routes',sub:'Fly anywhere from Dubai',color:'#0891b2'},
  {id:'space',icon:'🚀',title:'Space & Astronauts',sub:'Pilots who reached space',color:'#4c1d95'},
  {id:'history',icon:'📜',title:'Flight History',sub:'From balloons to Mars',color:'#a16207'},
+ {id:'codes',icon:'🔤',title:'Airports of the World',sub:'Codes, regions & secrets',color:'#a855f7'},
+ {id:'distance',icon:'📏',title:'Distance Lab',sub:'How far is it?',color:'#14b8a6'},
+ {id:'radio',icon:'🗣️',title:'Language of the Sky',sub:'Talk like a pilot',color:'#f43f5e'},
  {id:'cinema',icon:'🎬',title:'Sky Cinema',sub:'Watch mini movies',color:'#ec4899'},
  {id:'life',icon:'🧑‍✈️',title:'Being a Pilot',sub:'Why it is awesome',color:'#22b566'},
  {id:'skills',icon:'🧠',title:'Pilot Skills Lab',sub:'Train like a real pilot',color:'#0aa5a5'},
@@ -477,7 +485,7 @@ const VIDEOS={parts:[V.howfly],forces:[V.howfly,V.forces],types:[V.a380],weather
 const CAN_EMBED=(()=>{try{return /^https?:$/.test(location.protocol)&&!/claude|anthropic/i.test(location.hostname)}catch(e){return false}})();
 function videoCard(v){const url='https://www.youtube.com/watch?v='+v.id;return `<div class="vcard">${CAN_EMBED?`<div class="vwrap"><iframe src="https://www.youtube-nocookie.com/embed/${v.id}?rel=0&modestbranding=1&playsinline=1" title="${esc(v.t)}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>`:`<a class="vthumb" href="${url}" target="_blank" rel="noopener"><span>▶</span><em>Watch on YouTube</em></a>`}<b>${v.t}</b><small class="muted">${v.src}${v.len?' · '+v.len:''}</small><p>${v.d}</p>${CAN_EMBED?`<a href="${url}" target="_blank" rel="noopener" class="vlink">Open on YouTube ↗</a>`:''}</div>`}
 function videoCards(id){const vs=VIDEOS[id];if(!vs||!vs.length)return '';return `<div class="card pad"><h2>📺 Real videos${id==='cinema'?' — the full collection':''}</h2><p class="muted">Real videos from trusted sources like NASA, the Smithsonian, the FAA and Emirates. ${CAN_EMBED?'Press play to watch right here.':'Tap a video to watch it on YouTube.'}</p><div class="grid2">${vs.map(videoCard).join('')}</div></div>`}
-const LESSONS=['parts','forces','types','weather','airports','instruments','routes','space','history','cinema','life','skills','school'];
+const LESSONS=['parts','forces','types','weather','airports','codes','distance','radio','instruments','routes','space','history','cinema','life','skills','school'];
 
 const FACTS=[
  'The Wright brothers made the first powered aeroplane flight in 1903. It lasted just 12 seconds!',
@@ -652,6 +660,56 @@ const QUIZ=[
  {t:'history',q:'Which of these happened FIRST?',o:['The Wright brothers\' flight','The first jet plane','Concorde carrying passengers','The A380\'s first flight'],e:'1903 — the Wright brothers came first!'},
  {t:'history',q:'When did Emirates make its very first flights?',o:['1985','1903','1969','2019'],e:'Emirates began flying from Dubai in 1985.'},
  {t:'history',q:'What two big things happened in 1969?',o:['The 747 first flew and people walked on the Moon','Concorde and the A380 first flew','The first balloon and the first jet','Emirates and Hope Probe launched'],e:'What a year for flight!'},
+ // ---- codes ----
+ {t:'codes',q:'What does the airport code DXB stand for?',o:['Dubai International','Doha Express','Dubai Beach','Delhi Bay'],e:'DXB is Dubai International — one of the busiest international airports on Earth.'},
+ {t:'codes',q:'Who gives out the 3-letter airport codes like DXB?',o:['IATA (International Air Transport Association)','NASA','FIFA','The United Nations'],e:'IATA codes are used on tickets and bag tags.'},
+ {t:'codes',q:"Pilots use 4-letter ICAO codes. What is Dubai International's ICAO code?",o:['OMDB','DXBB','KDXB','EGLL'],e:'OMDB — O for the Middle East, M for the UAE.'},
+ {t:'codes',q:'ICAO codes starting with K are in which country?',o:['USA','Kenya','Kuwait','Korea'],e:'K is the USA — like KJFK and KLAX.'},
+ {t:'codes',q:"London Heathrow's ICAO code is EGLL. What is its 3-letter code?",o:['LHR','LON','EGL','HTW'],e:'LHR = London HeathRow.'},
+ {t:'codes',q:"Why is Mumbai's airport code BOM?",o:["From the city's old name, Bombay",'It means Big Open Market','It was chosen randomly','BOM stands for Boeing'],e:'Mumbai used to be called Bombay.'},
+ {t:'codes',q:"Chicago O'Hare's code is ORD. Where does it come from?",o:['Its old name, ORchard Field','The word "ORDER"','The pilot who built it','ORange Doors'],e:'Before it was named after a pilot, Edward O\'Hare, it was Orchard Field.'},
+ {t:'codes',q:'Many Canadian airport codes start with which letter?',o:['Y','C','Q','Z'],e:'Like YYZ (Toronto) and YVR (Vancouver).'},
+ {t:'codes',q:'Which airport is the home of Etihad Airways?',o:['AUH — Zayed International, Abu Dhabi','DXB — Dubai','DOH — Doha','SHJ — Sharjah'],e:'Etihad is based in Abu Dhabi.'},
+ {t:'codes',q:'An ICAO code starting with O is most likely in…',o:['the Middle East','Oceania','Oman only','Ontario'],e:'O is the Middle East region: OMDB (Dubai), OTHH (Doha), OERK (Riyadh).'},
+ {t:'codes',q:'Which airport has the ICAO code RJTT?',o:['Tokyo Haneda','Riyadh','Rome','Rio de Janeiro'],e:'R covers Japan & Korea — RJTT is Tokyo Haneda.'},
+ {t:'codes',q:'Which city has TWO big airports, DXB and DWC?',o:['Dubai','Doha','Delhi','Dublin'],e:'Dubai International (DXB) and Al Maktoum International (DWC).'},
+ // ---- radio / language ----
+ {t:'radio',q:'Which language must international pilots and controllers be able to use?',o:['English','Latin','Arabic only','Any language they like'],e:'ICAO made English the international language of aviation.'},
+ {t:'radio',q:'On the radio, pilots say "niner" for which number?',o:['9','5','3','19'],e:'"Niner" stops 9 being confused with the German word "nein" (no) or with 5.'},
+ {t:'radio',q:'What does "Wilco" mean?',o:['I understand and will comply','Wild cow','Wait a minute','Please repeat'],e:'WILL COmply = I will do it.'},
+ {t:'radio',q:'What does "Say again" mean?',o:['Please repeat','Speak louder forever','Goodbye','Cleared to land'],e:'Pilots never guess — they ask "say again".'},
+ {t:'radio',q:'Which word is used for a life-threatening emergency?',o:['MAYDAY (said 3 times)','HELLO','ROGER','WILCO'],e:'MAYDAY MAYDAY MAYDAY — everyone else keeps the radio quiet to help.'},
+ {t:'radio',q:'"PAN-PAN" is used when…',o:['there is an urgent problem but no immediate danger','it is lunch time','you want to land first','the radio is broken'],e:'PAN-PAN is one step below MAYDAY.'},
+ {t:'radio',q:'Why do pilots READ BACK instructions?',o:['To make sure they heard them correctly','To practise reading','Because it is polite','To fill the silence'],e:'If the read-back is wrong, the controller corrects it straight away.'},
+ {t:'radio',q:"What is British Airways' radio call sign?",o:['SPEEDBIRD','BRITISH','UNION JACK','BIG BEN'],e:'"Speedbird" comes from the airline\'s famous old bird logo.'},
+ {t:'radio',q:"What is flydubai's radio call sign?",o:['SKYDUBAI','FLYDUBAI','DUBAI ONE','FALCON'],e:'flydubai flights are called "Skydubai" on the radio.'},
+ {t:'radio',q:'If a plane\'s transponder is set to squawk 7700, it means…',o:['an emergency','everything is perfect','the pilot is hungry','landing early'],e:'7700 alerts every controller on radar that the plane has an emergency.'},
+ {t:'radio',q:'"Flight level three five zero" means about…',o:['35,000 feet','350 feet','3,500 feet','350 km'],e:'Flight levels are hundreds of feet: FL350 ≈ 35,000 ft.'},
+ {t:'radio',q:'Who gives the clearance "cleared for take-off"?',o:['The Tower controller','The Ground controller','The cabin crew','The passengers'],e:'Ground handles taxiways; only Tower clears you onto and off the runway.'},
+ {t:'radio',q:'Can a French controller talk to a French pilot in French?',o:['Yes, in France — but English must be available for international flights','Never','Only on Sundays','Only by text message'],e:'Local languages are allowed in some countries, but English is the common language.'},
+ {t:'radio',q:'On Emirates flights, cabin announcements are usually made in English and…',o:['Arabic','Japanese','Latin','Morse code'],e:'English and Arabic — often other languages too.'},
+ // ---- distance ----
+ {t:'distance',q:'Which is further from Dubai?',o:['London','Mumbai','Muscat','Doha'],e:'London is about 5,500 km away. Mumbai is about 1,900 km.'},
+ {t:'distance',q:'How long is 1 nautical mile?',o:['About 1.85 km','Exactly 1 km','About 10 km','About 100 m'],e:'1 nautical mile = 1.852 km.'},
+ {t:'distance',q:'Why do long flight routes look curved on a flat map?',o:['The Earth is round — the shortest path is a "great circle"','Pilots like curvy lines','The wind pushes all planes in curves','Maps are drawn wrong on purpose'],e:'On a globe, the curved line is actually the shortest route.'},
+ {t:'distance',q:'Emirates flies Dubai–Auckland, one of the longest flights in the world. About how far is it?',o:['About 14,000 km','About 1,400 km','About 4,000 km','About 40,000 km'],e:'About 14,200 km — over 16 hours in the air!'},
+ {t:'distance',q:'A 5,400 km flight at 900 km/h takes about…',o:['6 hours','4 hours','9 hours','60 hours'],e:'5,400 ÷ 900 = 6.'},
+ {t:'distance',q:'About how far is it all the way around the Earth?',o:['About 40,000 km','About 4,000 km','About 400,000 km','About 1,000 km'],e:'40,075 km around the equator.'},
+ // ---- extra challenge questions for existing topics ----
+ {t:'parts',q:'Which parts slide forward from the FRONT edge of the wing to help at slow speeds?',o:['Slats','Ailerons','Winglets','Elevators'],e:'Slats (front) and flaps (back) together make the wing curvier for take-off and landing.'},
+ {t:'parts',q:'What do winglets (the bent-up wing tips) do?',o:['Reduce drag and save fuel','Hold the landing lights','Steer the plane on the ground','Store passengers\' bags'],e:'They weaken the swirling air at the wing tips, which saves fuel.'},
+ {t:'parts',q:'What is the APU in the tail of an airliner?',o:['A small extra engine that powers the plane on the ground','A type of seat','The autopilot button','A spare wheel'],e:'The Auxiliary Power Unit gives electricity and air-conditioning before the main engines start.'},
+ {t:'forces',q:'What happens in a STALL?',o:['The wing is tilted too steeply and suddenly loses lift','The engines stop for lunch','The plane goes faster','The wheels lock'],e:'Pilots practise stall recovery: nose down a little to get smooth airflow back.'},
+ {t:'forces',q:'"Angle of attack" is the angle between…',o:['the wing and the oncoming air','two runways','the pilot and the co-pilot','the sun and the plane'],e:'More angle = more lift, until the wing stalls.'},
+ {t:'forces',q:'Which of Newton\'s laws explains a jet engine pushing a plane forward?',o:['Every action has an equal and opposite reaction','Objects fall at the same speed','Energy cannot be destroyed','Light travels fastest'],e:'Air blasted backwards pushes the plane forwards — Newton\'s third law.'},
+ {t:'instruments',q:'What does the Vertical Speed Indicator show?',o:['How fast you are climbing or descending, in feet per minute','Your speed over the ground','The time','The wind direction'],e:'It shows climb or descent rate.'},
+ {t:'instruments',q:'The pitot tube on the nose measures…',o:['air pressure, to work out airspeed','temperature in the cabin','fuel level','passenger weight'],e:'Faster flying = more air pressure in the pitot tube.'},
+ {t:'weather',q:'Jet streams are…',o:['fast rivers of wind high up in the sky','the white lines behind planes','water jets at airports','small thunderstorms'],e:'Flights heading east can ride the jet stream and arrive early.'},
+ {t:'weather',q:'A METAR is…',o:['a weather report for an airport','a metal part of the wing','a type of cloud','a pilot rank'],e:'Pilots read METARs to check wind, cloud and visibility.'},
+ {t:'space',q:'The Kármán line, about 100 km up, is often called…',o:['the edge of space','the middle of the ocean','the end of the runway','the Moon\'s orbit'],e:'Above about 100 km is usually counted as space.'},
+ {t:'history',q:'The de Havilland Comet (1952) was the first…',o:['jet airliner to carry passengers','helicopter','plane with propellers','supersonic plane'],e:'The Comet started the jet age for passengers.'},
+ {t:'types',q:'What does "wide-body" plane mean?',o:['It has two aisles inside','It is painted wide','It has extra wheels','It has no windows'],e:'Wide-bodies like the A380, 777 and 787 have two aisles.'},
+ {t:'pilot',q:'What is the highest pilot licence, needed to be an airline captain?',o:['ATPL — Airline Transport Pilot Licence','PPL — Private Pilot Licence','A driving licence','A library card'],e:'Pilots usually start with a PPL and work up to the ATPL.'},
 ];
 const QTOPICS=[
  {id:'parts',name:'Parts of a Plane',icon:'✈️',n:8},
@@ -664,6 +722,9 @@ const QTOPICS=[
  {id:'instruments',name:'Cockpit Instruments',icon:'🎛️',n:8},
  {id:'space',name:'Space & Astronauts',icon:'🚀',n:8},
  {id:'history',name:'Flight History',icon:'📜',n:8},
+ {id:'codes',name:'Airports & Codes',icon:'🔤',n:10},
+ {id:'radio',name:'Language of the Sky',icon:'🗣️',n:10},
+ {id:'distance',name:'Distances',icon:'📏',n:6},
  {id:'big',name:'BIG Pilot Test (all topics)',icon:'🏅',n:20},
 ];
 
@@ -715,6 +776,19 @@ const BADGES={
  'quiz-history':{icon:'🥇',name:'History Quiz Star',d:'7+ on the History quiz'},
  wings:{icon:'🪽',name:'Pilot Wings',d:'Completed a Mission Flight'},
  perfect:{icon:'💎',name:'Perfect Flight',d:'8/8 checkpoints correct in a Mission Flight'},
+ 'learn-codes':{icon:'🔤',name:'Airport Expert',d:'Learned airports & codes'},
+ 'learn-distance':{icon:'📏',name:'Distance Explorer',d:'Learned about flight distances'},
+ 'learn-radio':{icon:'🗣️',name:'Radio Speaker',d:'Learned the language of the sky'},
+ codemaster:{icon:'🔐',name:'Code Master',d:'8+ in Code Cracker'},
+ detective:{icon:'🕵️',name:'ICAO Detective',d:'7+ in ICAO Detective'},
+ distanceguru:{icon:'🧭',name:'Distance Guru',d:'6+ in the Distance Challenge'},
+ measurer:{icon:'📐',name:'Route Measurer',d:'Measured 10 routes in the Distance Lab'},
+ radiopro:{icon:'🎧',name:'Radio Pro',d:'7+ in the Radio Room'},
+ chiefpilot:{icon:'🎖️',name:'Chief Pilot',d:'8+ on Level 6 maths'},
+ acepilot:{icon:'🦅',name:'Ace Pilot',d:'Finished an ACE Mission Flight with 10+ correct'},
+ 'quiz-codes':{icon:'🥇',name:'Codes Quiz Star',d:'7+ on the Airports & Codes quiz'},
+ 'quiz-radio':{icon:'🥇',name:'Radio Quiz Star',d:'7+ on the Language quiz'},
+ 'quiz-distance':{icon:'🥇',name:'Distance Quiz Star',d:'5+ on the Distances quiz'},
  topgun:{icon:'🎮',name:'Top Flyer',d:'Scored 150+ in Sky Flyer'},
 };
 
@@ -1025,7 +1099,7 @@ function viewSchool(){
 
 // ---------- MATHS HANGAR ----------
 const fmtT=(h,mn)=>`${pad2(h)}:${pad2(mn)}`;
-const MLEVELS_=[{n:1,name:'Take-off',icon:'🛫',d:'Adding & taking away'},{n:2,name:'Cruising',icon:'☁️',d:'Times tables & multiplying'},{n:3,name:'Navigator',icon:'🧭',d:'Dividing, distance & time'},{n:4,name:'Captain',icon:'🧑‍✈️',d:'Multi-step pilot problems'},{n:5,name:'Ace Navigator',icon:'🌍',d:'Time zones, %, averages & minus numbers'}];
+const MLEVELS_=[{n:1,name:'Take-off',icon:'🛫',d:'Adding & taking away'},{n:2,name:'Cruising',icon:'☁️',d:'Times tables & multiplying'},{n:3,name:'Navigator',icon:'🧭',d:'Dividing, distance & time'},{n:4,name:'Captain',icon:'🧑‍✈️',d:'Multi-step pilot problems'},{n:5,name:'Ace Navigator',icon:'🌍',d:'Time zones, %, averages & minus numbers'},{n:6,name:'Chief Pilot',icon:'🎖️',d:'Wind, descent planning, fuel & averages — HARD!'}];
 const MLEVELS=MLEVELS_;
 const MATHS={
  1:[
@@ -1069,6 +1143,15 @@ const MATHS={
   ()=>{const cap=pick([40,50,60]);let p=rnd(101,390);if(p%cap===0)p+=7;const ans=Math.ceil(p/cap);return{q:`🚌 ${p} passengers need to get to the plane. Each bus holds ${cap} people. How many buses are needed so nobody is left behind?`,a:ans,w:`${p} ÷ ${cap} = ${Math.floor(p/cap)} remainder ${p%cap}. The ${p%cap} leftover passengers still need a bus, so we need ${ans} buses`}},
   ()=>{const tank=pick([40000,60000,80000,100000]),u=pick([25,50,75]);return{q:`⛽ The plane took off with ${num(tank)} kg of fuel. It has used ${u}% of it. How many kg of fuel are left?`,a:tank*(100-u)/100,w:`Left = 100% − ${u}% = ${100-u}%. ${num(tank)} ÷ 100 × ${100-u} = ${num(tank*(100-u)/100)} kg`}},
  ],
+ 6:[
+  ()=>{const a=pick([800,850,900]),w=pick([50,100,150]),h=rnd(2,6),gs=a-w;return{q:`🌬️ A plane's airspeed is ${a} km/h, but there is a ${w} km/h HEADWIND. The trip is ${num(gs*h)} km. How many hours will it take?`,a:h,w:`Ground speed = ${a} − ${w} = ${gs} km/h. Time = ${num(gs*h)} ÷ ${gs} = ${h} hours`}},
+  ()=>{const a=pick([700,750,800]),w=pick([50,100,200]),h=rnd(2,5),gs=a+w;return{q:`🌬️ Airspeed ${a} km/h with a ${w} km/h TAILWIND. How far does the plane travel over the ground in ${h} hours (km)?`,a:gs*h,w:`Ground speed = ${a} + ${w} = ${gs} km/h. Distance = ${gs} × ${h} = ${num(gs*h)} km`}},
+  ()=>{const alt=rnd(30,40)*1000;return{q:`⬇️ Pilots use the "3-to-1 rule": start descending 3 nautical miles from the airport for every 1,000 feet of height. You are at ${num(alt)} feet. How many nautical miles out should you start descending?`,a:alt/1000*3,w:`${num(alt)} ÷ 1,000 = ${alt/1000}. ${alt/1000} × 3 = ${alt/1000*3} nautical miles`}},
+  ()=>{const L=pick([5000,10000,15000,20000,25000]);return{q:`⛽ Jet fuel weighs about 0.8 kg per litre. How many kg do ${num(L)} litres weigh?`,a:L*.8,w:`${num(L)} × 0.8 = ${num(L*.8)} kg (8 tenths of ${num(L)})`}},
+  ()=>{let s1,t1,s2,t2,av;do{s1=pick([400,500,600,700,800,900]);t1=rnd(1,3);s2=pick([400,500,600,700,800,900]);t2=rnd(1,3);av=(s1*t1+s2*t2)/(t1+t2)}while(!Number.isInteger(av)||s1===s2);return{q:`📊 A plane flies ${t1} h at ${s1} km/h, then ${t2} h at ${s2} km/h. What is its AVERAGE speed for the whole trip (km/h)?`,a:av,w:`Total distance = ${s1}×${t1} + ${s2}×${t2} = ${num(s1*t1+s2*t2)} km. Total time = ${t1+t2} h. Average = ${num(s1*t1+s2*t2)} ÷ ${t1+t2} = ${av} km/h`}},
+  ()=>{const dh=rnd(0,6),dm=pick([0,15,30,45]),fh=9,fm=pick([30,45]);const arr=dh*60+dm+fh*60+fm,tok=arr+300;return{q:`🗾 You leave Dubai at ${fmtT(dh,dm)} (Dubai time). The flight to Tokyo takes ${fh} h ${fm} min. Tokyo's clocks are 5 hours AHEAD of Dubai. What time is it in Tokyo when you land? (like 13:45)`,a:fmtT(Math.floor(tok/60),tok%60),type:'time',w:`Landing in Dubai time: ${fmtT(Math.floor(arr/60),arr%60)}. Add 5 hours for Tokyo: ${fmtT(Math.floor(tok/60),tok%60)}`}},
+  ()=>{const f=pick([2000,2400,3000,3600,4000]),h=rnd(3,8);return{q:`🛢️ A plane burns ${num(f)} kg of fuel per hour. The flight is ${h} hours, and it must also carry 30 minutes of RESERVE fuel. How much fuel (kg) must it carry in total?`,a:f*h+f/2,w:`Trip fuel: ${num(f)} × ${h} = ${num(f*h)} kg. Reserve (half an hour): ${num(f)} ÷ 2 = ${num(f/2)} kg. Total = ${num(f*h+f/2)} kg`}},
+ ],
 };
 function viewMaths(){
  const m=M('maths');
@@ -1090,7 +1173,7 @@ function viewMaths(){
   $('#mStreak').textContent='🔥 '+streak;$('#mProg').style.width=(n*10)+'%';
   const praise=pick(['Great flying, Captain '+pname()+'!','Smooth landing!','Roger that — correct!','Top pilot maths!','Perfect calculation!']);
   const help=pick(['Not quite — even top pilots double-check. Look at the working:','Close! Here is how a pilot works it out:','Good try! Let\'s see the working:']);
-  let fin='';if(n>=10){const better=bestScore('math'+level,score,s=>0);fin=`<div class="explain ok" style="margin-top:10px">🏁 <b>Flight complete!</b> You scored <b>${score}/10</b> on Level ${level}. ${score>=8&&level<5?'You are ready for the next level! 🚀':score===10?'PERFECT! 💯':'Keep practising — every pilot gets better with practice!'}</div><div class="row gap" style="justify-content:center;margin-top:10px"><button class="btn green" id="again">🔁 Fly this level again</button>${score>=8&&level<5?`<button class="btn" id="up">⬆ Level ${level+1}</button>`:''}</div>`;if(score===10)award('maths-ace');if(level===4&&score>=8)award('maths-captain');if(level===5&&score>=8)award('maths-nav')}
+  let fin='';if(n>=10){const better=bestScore('math'+level,score,s=>0);fin=`<div class="explain ok" style="margin-top:10px">🏁 <b>Flight complete!</b> You scored <b>${score}/10</b> on Level ${level}. ${score>=8&&level<MLEVELS.length?'You are ready for the next level! 🚀':score===10?'PERFECT! 💯':'Keep practising — every pilot gets better with practice!'}</div><div class="row gap" style="justify-content:center;margin-top:10px"><button class="btn green" id="again">🔁 Fly this level again</button>${score>=8&&level<MLEVELS.length?`<button class="btn" id="up">⬆ Level ${level+1}</button>`:''}</div>`;if(score===10)award('maths-ace');if(level===4&&score>=8)award('maths-captain');if(level===5&&score>=8)award('maths-nav');if(level===6&&score>=8)award('chiefpilot')}
   $('#mFb').innerHTML=`<div class="explain ${ok?'ok':'no'}">${ok?'✅ '+praise:`❌ ${help}<br>`}<br><b>Working:</b> ${q.w}${ok?'':`<br><b>Answer:</b> ${q.type==='heading'?pad3(q.a):q.a}`}</div>${n<10?`<div class="center" style="margin-top:10px"><button class="btn alt" id="nextQ">Next question ➡</button></div>`:fin}`;
   if($('#nextQ'))$('#nextQ').onclick=newQ;if($('#again'))$('#again').onclick=()=>start(level);if($('#up'))$('#up').onclick=()=>start(level+1);
   $$('.lvl small').forEach((s,k)=>s.textContent=`Best: ${S.best['math'+(k+1)]||0}/10`)}
@@ -1112,7 +1195,7 @@ function viewQuiz(topic){
   <div class="opts">${opts.map((x,k)=>`<button class="opt" data-k="${k}"><span class="k">${'ABCD'[k]}</span>${x.o}</button>`).join('')}</div><div id="qx"></div></div>`;
   $$('.opt').forEach(b=>b.onclick=()=>{const x=opts[+b.dataset.k];if(x.ok){score++;beep('ok')}else beep('no');$$('.opt').forEach((y,k)=>{y.disabled=true;y.classList.add(opts[k].ok?'right':(y===b?'wrong':'dim'))});
    $('#qx').innerHTML=`<div class="explain ${x.ok?'ok':'no'}">${x.ok?pick(['✅ Correct! Brilliant!','✅ Roger that — right answer!','✅ Superb, Captain!']):'❌ '+pick(['Not quite — now you know!','Good try! Here is the answer:','Nearly! Remember this one:'])}<br>${q.e}</div><div class="center" style="margin-top:12px"><button class="btn alt big" id="qn">${i<qs.length-1?'Next ➡':'See my score 🏁'}</button></div>`;$('#qn').onclick=()=>{i++;i<qs.length?ask():done()};$('#qn').scrollIntoView({behavior:'smooth',block:'center'})})}
- function done(){const need=topic==='big'?16:7;const pass=score>=need;bestScore('quiz-'+topic,score,s=>s);if(pass)award('quiz-'+topic);if(pass)confetti(40);
+ function done(){const need=topic==='big'?16:Math.ceil(qs.length*.8);const pass=score>=need;bestScore('quiz-'+topic,score,s=>s);if(pass)award('quiz-'+topic);if(pass)confetti(40);
   app.innerHTML=`<div class="qcard center" style="margin-top:16px"><div style="font-size:80px">${pass?'🏆':'💪'}</div><h1>You scored ${score} / ${qs.length}</h1><p style="font-size:20px">${pass?`Fantastic, ${esc(pname())}! You really know your stuff!`:`Good effort, ${esc(pname())}! Every pilot practises. Have another go!`}</p><p class="muted">Best score: ${S.best['quiz-'+topic]||score}/${qs.length}</p><div class="row gap" style="justify-content:center"><a class="btn green big" href="#quiz-${topic}" id="retry">🔁 Try again</a><a class="btn alt big" href="#quiz">🏆 Other quizzes</a><a class="btn grey big" href="#home">🗺️ Map</a></div></div>`;
   $('#retry').onclick=e=>{e.preventDefault();viewQuiz(topic)}}
  ask();
@@ -1469,14 +1552,15 @@ function speedRun(box){
 // =====================================================================
 // v5: MISSION FLIGHT — pseudo-3D flight engine + gamified learning
 // =====================================================================
-const TOPIC_OF={parts:'parts',forces:'forces',types:'types',weather:'weather',airports:'airports',instruments:'instruments',space:'space',history:'history',life:'pilot',school:'pilot',skills:'fun',routes:'fun',cinema:'big',maths:'m2'};
-const MTOPICS=[...QTOPICS.filter(t=>t.id!=='big').map(t=>({id:t.id,name:t.name,icon:t.icon,kind:'Knowledge'})),{id:'big',name:'Mixed: every topic',icon:'🏅',kind:'Knowledge'},...[1,2,3,4,5].map(n=>({id:'m'+n,name:`Maths Level ${n}: ${MLEVELS[n-1].name}`,icon:MLEVELS[n-1].icon,kind:'Maths'}))];
+const TOPIC_OF={parts:'parts',forces:'forces',types:'types',weather:'weather',airports:'airports',instruments:'instruments',space:'space',history:'history',life:'pilot',school:'pilot',skills:'fun',routes:'fun',cinema:'big',maths:'m2',codes:'codes',distance:'distance',radio:'radio'};
+const MTOPICS=[...QTOPICS.filter(t=>t.id!=='big').map(t=>({id:t.id,name:t.name,icon:t.icon,kind:'Knowledge'})),{id:'big',name:'Mixed: every topic',icon:'🏅',kind:'Knowledge'},...MLEVELS.map(L=>({id:'m'+L.n,name:`Maths Level ${L.n}: ${L.name}`,icon:L.icon,kind:'Maths'}))];
 function mathMC(q){const A=q.a,opts=new Set();const lab=v=>q.type==='heading'?pad3(v):String(v);
  if(q.type==='time'){const [h,m]=A.split(':').map(Number);[15,30,60,-15,-60,45,-30].forEach(d=>{const t=(((h*60+m+d)%1440)+1440)%1440;opts.add(fmtT(Math.floor(t/60),t%60))})}
  else{const n=+A;const ds=Math.abs(n)>=1000?[100,1000,-100,-1000,500,-500]:Math.abs(n)>=100?[10,-10,20,100,-20,-100]:[1,-1,2,-2,10,-10,5];ds.forEach(d=>{let v=n+d;if(q.type==='heading')v=((v%360)+360)%360;if(v>=0||n<0)opts.add(lab(v))})}
  opts.delete(lab(A));return shuffle([{t:lab(A),ok:true},...shuffle([...opts]).slice(0,3).map(t=>({t,ok:false}))])}
 function questionSource(topic){
- if(/^m[1-5]$/.test(topic)){const L=+topic[1];return()=>{const q=pick(MATHS[L])();return{q:q.q,opts:mathMC(q),e:'<b>Working:</b> '+q.w}}}
+ if(typeof DYNQ!=='undefined'&&DYNQ[topic])return DYNQ[topic];
+ if(/^m[1-6]$/.test(topic)){const L=+topic[1];return()=>{const q=pick(MATHS[L])();return{q:q.q,opts:mathMC(q),e:'<b>Working:</b> '+q.w}}}
  const bank=topic==='big'?QUIZ:QUIZ.filter(x=>x.t===topic);let pool=[];
  return()=>{if(!pool.length)pool=shuffle(bank);const x=pool.pop();return{q:x.q,opts:shuffle(x.o.map((t,k)=>({t,ok:k===0}))),e:x.e}}}
 
@@ -1485,7 +1569,7 @@ function createFlight(cv,opt={}){
  const F=520,HOR=H*.42,CAMZ=9,CAMUP=1.7,GROUND=-14,TOTAL=opt.total||8;
  const towers=Array.from({length:26},(_,i)=>({x:-420+i*34+Math.random()*14,h:14+Math.random()*46+(i===13?70:0),w:8+Math.random()*12,spire:i===13}));
  const parts=Array.from({length:40},()=>({x:(Math.random()-.5)*36,y:(Math.random()-.5)*22,z:-Math.random()*80}));
- const st={x:0,y:0,vx:0,vy:0,objs:[],t:0,speed:46,bank:0,score:0,combo:1,fuel:100,rings:0,ringsHit:0,cpSpawned:0,cpDone:0,correct:0,spawnR:.4,spawnC:0,spawnS:5,sinceCP:0,lastRX:0,lastRY:1,paused:false,over:false,keys:{},target:null,scroll:0,shake:0,flashC:null,flashT:0};
+ const st={x:0,y:0,vx:0,vy:0,objs:[],t:0,speed:opt.hard?56:46,bank:0,score:0,combo:1,fuel:100,rings:0,ringsHit:0,cpSpawned:0,cpDone:0,correct:0,spawnR:.4,spawnC:0,spawnS:5,sinceCP:0,lastRX:0,lastRY:1,paused:false,over:false,keys:{},target:null,scroll:0,shake:0,flashC:null,flashT:0};
  let raf=null,last=0;
  const P=(x,y,z)=>{const d=CAMZ-z;if(d<=.6)return null;const s=F/d;return{x:W/2+(x-st.x*.82)*s,y:HOR-(y-(st.y*.82+CAMUP))*s,s,d}};
  function spawn(){
@@ -1504,14 +1588,14 @@ function createFlight(cv,opt={}){
   if(st.spawnR<=0){st.spawnR=1.35;const nx=Math.max(-9,Math.min(9,st.lastRX+(Math.random()-.5)*9)),ny=Math.max(-4,Math.min(6,st.lastRY+(Math.random()-.5)*5));st.lastRX=nx;st.lastRY=ny;st.objs.push({type:'ring',x:nx,y:ny,z:-300});
    if(!opt.demo&&++st.sinceCP>=5&&st.cpSpawned<TOTAL){st.sinceCP=0;st.cpSpawned++;st.objs.push({type:'cp',x:0,y:1,z:-330,n:st.cpSpawned})}}
   if(st.spawnC<=0){st.spawnC=.45;st.objs.push({type:'cloud',x:(Math.random()<.5?-1:1)*(8+Math.random()*34),y:-4+Math.random()*18,z:-320,r:3+Math.random()*5,seed:Math.random()})}
-  if(!opt.demo&&st.spawnS<=0&&st.t>6){st.spawnS=3+Math.random()*2.5;st.objs.push({type:'storm',x:(Math.random()-.5)*18,y:-3+Math.random()*9,z:-320})}
+  if(!opt.demo&&st.spawnS<=0&&st.t>6){st.spawnS=(opt.hard?1.8:3)+Math.random()*2.5;st.objs.push({type:'storm',x:(Math.random()-.5)*18,y:-3+Math.random()*9,z:-320})}
   for(const p of parts){p.z+=sp*dt;if(p.z>CAMZ-1){p.z-=80;p.x=(Math.random()-.5)*36;p.y=(Math.random()-.5)*22}}
   for(const o of st.objs){const pz=o.z;o.z+=sp*dt;if(pz<0&&o.z>=0&&!o.hit){const dx=o.x-st.x,dy=o.y-st.y,dist=Math.hypot(dx,dy);
    if(o.type==='ring'&&dist<2.7){o.hit=true;st.rings++;st.ringsHit++;st.score+=10*st.combo;if(!opt.demo){st.fuel=Math.min(100,st.fuel+2);beep('ok');opt.onRing&&opt.onRing()}}
    if(o.type==='storm'&&dist<3.4){o.hit=true;if(!opt.demo){st.fuel=Math.max(0,st.fuel-15);st.combo=1;st.shake=.5;st.flashC='239,77,86';st.flashT=.4;beep('no')}}
    if(o.type==='cp'){o.hit=true;st.paused=true;st.keys={};st.target=null;opt.onCheckpoint&&opt.onCheckpoint(o.n,TOTAL,res=>{st.cpDone++;if(res){st.correct++;st.fuel=Math.min(100,st.fuel+30);st.score+=50*st.combo;st.combo=Math.min(5,st.combo+1);st.flashC='34,197,94';st.flashT=.5}else{st.combo=1}st.paused=false;last=performance.now();if(st.cpDone>=TOTAL)end('complete')})}}}
   st.objs=st.objs.filter(o=>o.z<CAMZ+2);
-  if(!opt.demo){st.fuel-=dt*1.7;if(st.fuel<=0){st.fuel=0;end('fuel')}}
+  if(!opt.demo){st.fuel-=dt*(opt.hard?2.3:1.7);if(st.fuel<=0){st.fuel=0;end('fuel')}}
   if(st.shake>0)st.shake-=dt;if(st.flashT>0)st.flashT-=dt;
  }
  function end(why){if(st.over)return;st.over=true;opt.onEnd&&opt.onEnd({why,score:st.score,correct:st.correct,total:TOTAL,rings:st.ringsHit})}
@@ -1561,8 +1645,8 @@ function createFlight(cv,opt={}){
   ctx.fillStyle='rgba(4,18,43,.55)';ctx.fillRect(16,14,250,64);ctx.strokeStyle='rgba(56,189,248,.6)';ctx.strokeRect(16,14,250,64);
   ctx.fillStyle='#7dd3fc';ctx.fillText('FUEL',28,22);ctx.fillStyle='rgba(255,255,255,.15)';ctx.fillRect(88,24,164,12);const fc=st.fuel>50?'#22c55e':st.fuel>25?'#facc15':'#ef4444';ctx.fillStyle=fc;ctx.fillRect(88,24,164*st.fuel/100,12);
   ctx.fillStyle='#7dd3fc';ctx.fillText('SCORE',28,50);ctx.fillStyle='#fff';ctx.fillText(String(st.score),100,50);if(st.combo>1){ctx.fillStyle='#ffc23d';ctx.fillText('×'+st.combo,200,50)}
-  ctx.fillStyle='rgba(4,18,43,.55)';ctx.fillRect(W-16-260,14,260,40);ctx.strokeStyle='rgba(56,189,248,.6)';ctx.strokeRect(W-16-260,14,260,40);ctx.fillStyle='#7dd3fc';ctx.fillText('CHECKPOINTS',W-264,27);
-  for(let i=0;i<TOTAL;i++){ctx.fillStyle=i<st.cpDone?'#22c55e':'rgba(255,255,255,.25)';ctx.beginPath();ctx.arc(W-128+i*14,34,5,0,7);ctx.fill()}
+  ctx.fillStyle='rgba(4,18,43,.55)';ctx.fillRect(W-16-330,14,330,40);ctx.strokeStyle='rgba(56,189,248,.6)';ctx.strokeRect(W-16-330,14,330,40);ctx.fillStyle='#7dd3fc';ctx.fillText('CHECKPOINTS',W-334,27);
+  for(let i=0;i<TOTAL;i++){ctx.fillStyle=i<st.cpDone?'#22c55e':'rgba(255,255,255,.25)';ctx.beginPath();ctx.arc(W-32-(TOTAL-1-i)*14,34,5,0,7);ctx.fill()}
   // reticle
   ctx.strokeStyle='rgba(125,211,252,.35)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(W/2-30,HOR+20);ctx.lineTo(W/2-10,HOR+20);ctx.moveTo(W/2+10,HOR+20);ctx.lineTo(W/2+30,HOR+20);ctx.stroke();
   if(st.fuel<25&&(st.t%.8)<.4){ctx.fillStyle='#ef4444';ctx.font='800 22px Orbitron, sans-serif';ctx.textAlign='center';ctx.fillText('LOW FUEL — HIT RINGS & CHECKPOINTS!',W/2,H-44)}
@@ -1591,23 +1675,25 @@ function viewMission(arg){
   <div class="card pad"><h2>🕹️ How to fly</h2><div class="grid3"><div class="tile"><div class="ic">⌨️</div><h3>Keyboard</h3><p>Arrow keys or W A S D to steer.</p></div><div class="tile"><div class="ic">👆</div><h3>Touch</h3><p>Hold and drag your finger where you want the plane to go — or use the arrow pad.</p></div><div class="tile"><div class="ic">⛽</div><h3>Fuel</h3><p>Rings give a little fuel. Right answers at checkpoints give LOTS. Storm clouds take fuel away!</p></div></div><p class="muted">Prefer the old 2D game? <a href="#classic">Play Classic Sky Flyer</a>.</p></div>`;return}
  const nextQ=questionSource(tp.id);
  app.innerHTML=`<div class="lesson-head" style="background:#0f2a52"><a href="#game" class="back">⬅ Missions</a><div class="lh-icon">${tp.icon}</div><div><h1>Mission: ${tp.name}</h1><p>Steer through rings, answer checkpoints, keep your fuel up!</p></div></div>
- <div class="card pad" style="padding:10px"><div class="gamewrap fwrap"><canvas id="fc"></canvas><div class="qpanel hidden" id="qp"></div><div class="overlay" id="fov"><div><h2>🛫 Ready for take-off?</h2><p>${tp.name} · 8 checkpoints</p><p class="muted">Best: ${S.best['mission-'+tp.id]||0}/8</p><button class="btn big" id="fgo">▶ Start engines</button></div></div></div>
+ <div class="card pad" style="padding:10px"><div class="gamewrap fwrap"><canvas id="fc"></canvas><div class="qpanel hidden" id="qp"></div><div class="overlay" id="fov"><div><h2>🛫 Ready for take-off?</h2><p>${tp.name} · 8 checkpoints</p><p class="muted">Best: ${S.best['mission-'+tp.id]||0}/8</p><div class="row gap" style="justify-content:center"><button class="btn big" id="fgo">▶ Normal · 8 checkpoints</button><button class="btn big alt" id="fgoAce">🦅 ACE · 12 checkpoints, timer</button></div><p class="muted" style="margin-top:10px">ACE mode: faster plane, more storms, 20 seconds per question. Best ACE: ${S.best['ace-'+tp.id]||0}/12</p></div></div></div>
  <div class="gctl dpad"><button data-k="l">⬅️</button><button data-k="u">⬆️</button><button data-k="d">⬇️</button><button data-k="r">➡️</button></div></div>`;
  const qp=$('#qp');let fl=null;
  const onCheckpoint=(n,total,done)=>{const Q=nextQ();qp.classList.remove('hidden');
   qp.innerHTML=`<div class="qhead">CHECKPOINT ${n}/${total} <span>${sayBtn(Q.q)}</span></div><div class="qtext">${Q.q}</div><div class="opts">${Q.opts.map((o,j)=>`<button class="opt" data-j="${j}"><span class="k">${'ABCD'[j]}</span>${o.t}</button>`).join('')}</div><div class="qx"></div>`;
   if(S.sound)speak(Q.q);
-  $$('.opt',qp).forEach(b=>b.onclick=()=>{const o=Q.opts[+b.dataset.j];o.ok?beep('ok'):beep('no');$$('.opt',qp).forEach((x,j)=>{x.disabled=true;x.classList.add(Q.opts[j].ok?'right':(x===b?'wrong':'dim'))});
+  let answered=false;clearInterval(qTimer);
+  if(hard){let left=20;qp.querySelector('.qhead').insertAdjacentHTML('beforeend',`<span class="qtimer" id="qt">⏱ 20</span>`);qTimer=setInterval(()=>{left--;const t=$('#qt');if(t)t.textContent='⏱ '+left;if(left<=0){clearInterval(qTimer);if(!answered){const wrongBtn=$$('.opt',qp).find((x,j)=>!Q.opts[j].ok);wrongBtn&&wrongBtn.click()}}},1000)}
+  $$('.opt',qp).forEach(b=>b.onclick=()=>{if(answered)return;answered=true;clearInterval(qTimer);const o=Q.opts[+b.dataset.j];o.ok?beep('ok'):beep('no');$$('.opt',qp).forEach((x,j)=>{x.disabled=true;x.classList.add(Q.opts[j].ok?'right':(x===b?'wrong':'dim'))});
    $('.qx',qp).innerHTML=`<div class="explain ${o.ok?'ok':'no'}">${o.ok?'✅ Correct! +30 fuel, combo up! ':'❌ Not quite. '}${Q.e}</div><div class="center" style="margin-top:10px"><button class="btn big" id="qgo">Continue flight ▶</button></div>`;
    $('#qgo').onclick=()=>{stopSpeak();qp.classList.add('hidden');done(o.ok)}})};
- const onEnd=r=>{const pass=r.why==='complete';const nb=bestScore('mission-'+tp.id,r.correct,s=>s);if(pass)award('wings');if(r.correct===r.total)award('perfect');if(pass&&r.correct>=6)confetti(60);
+ const onEnd=r=>{const pass=r.why==='complete';const nb=hard?bestScore('ace-'+tp.id,r.correct,s=>Math.floor(s/2)):bestScore('mission-'+tp.id,r.correct,s=>s);if(pass)award('wings');if(hard&&pass&&r.correct>=10)award('acepilot');if(r.correct===r.total)award('perfect');if(pass&&r.correct>=6)confetti(60);
   setTimeout(()=>{const ov=$('#fov');if(!ov)return;ov.classList.remove('hidden');ov.innerHTML=`<div><h2>${pass?'🏁 Mission complete!':'⛽ Out of fuel!'}</h2><p style="font-size:22px">Checkpoints correct: <b>${r.correct}/${r.total}</b> · Score: <b>${r.score}</b> · Rings: <b>${r.rings}</b></p><p>${nb?'🎉 New best! ':''}${pass?(r.correct===r.total?'PERFECT FLIGHT, Captain '+esc(pname())+'!':'Great flying, '+esc(pname())+'!'):'Tip: right answers at checkpoints refuel you fast!'}</p><div class="row gap" style="justify-content:center"><button class="btn big" id="fagain">🔁 Fly again</button><a class="btn big alt" href="#game">🗺️ Other missions</a></div></div>`;$('#fagain').onclick=()=>viewMission(tp.id)},pass?400:600)};
- fl=createFlight($('#fc'),{onCheckpoint,onEnd,total:8});
- // first frame
- fl.st.paused=true;fl.start();
- $('#fgo').onclick=()=>{$('#fov').classList.add('hidden');fl.st.paused=false};
+ let hard=false,qTimer=null;
+ const launch=h=>{hard=h;if(fl)fl.stop();fl=createFlight($('#fc'),{onCheckpoint,onEnd,total:h?12:8,hard:h});fl.start();$('#fov').classList.add('hidden')};
+ fl=createFlight($('#fc'),{onCheckpoint,onEnd,total:8});fl.st.paused=true;fl.start();
+ $('#fgo').onclick=()=>launch(false);$('#fgoAce').onclick=()=>launch(true);
  $$('.dpad button').forEach(b=>{const k=b.dataset.k;b.addEventListener('pointerdown',e=>{e.preventDefault();fl.hold(k,1)});['pointerup','pointerleave','pointercancel'].forEach(ev=>b.addEventListener(ev,()=>fl.hold(k,0)))});
- cleanup=()=>fl.stop();
+ cleanup=()=>{clearInterval(qTimer);fl&&fl.stop()};
 }
 
 // in-lesson checkpoints: quick questions between sections
@@ -1615,6 +1701,136 @@ function addCheckpoints(topic){if(!topic||/^m/.test(topic))return;const cards=$$
  idx.forEach((i,n)=>{const Q=nq();const el=document.createElement('div');el.className='card pad cpcard';el.innerHTML=`<div class="qhead">⚡ CHECKPOINT ${n+1} <small>— answer to earn ⭐</small> ${sayBtn(Q.q)}</div><div class="qtext" style="font-size:22px">${Q.q}</div><div class="opts">${Q.opts.map((o,j)=>`<button class="opt" data-j="${j}"><span class="k">${'ABCD'[j]}</span>${o.t}</button>`).join('')}</div><div class="qx"></div>`;
   $$('.opt',el).forEach(b=>b.onclick=()=>{const o=Q.opts[+b.dataset.j];$$('.opt',el).forEach((x,j)=>{x.disabled=true;x.classList.add(Q.opts[j].ok?'right':(x===b?'wrong':'dim'))});if(o.ok){beep('ok');if(!S.best.cp[Q.q]){S.best.cp[Q.q]=1;addStars(1,'Checkpoint!')}}else beep('no');$('.qx',el).innerHTML=`<div class="explain ${o.ok?'ok':'no'}">${o.ok?'✅ Correct! ':'❌ Not quite. '}${Q.e}</div>`});
   cards[i].after(el)})}
+
+// =====================================================================
+// v6: Airports of the World · Distance Lab · Language of the Sky · Ace mode
+// =====================================================================
+const AIRPORTS=[
+ ["DXB","OMDB","Dubai International","Dubai","UAE",25.25,55.36,"One of the busiest airports in the world for international travellers, and home of Emirates."],
+ ["DWC","OMDW","Al Maktoum International (Dubai World Central)","Dubai","UAE",24.90,55.16,"Dubai is building it into one of the biggest airports on the planet."],
+ ["AUH","OMAA","Zayed International","Abu Dhabi","UAE",24.43,54.65,"Home of Etihad Airways."],
+ ["SHJ","OMSJ","Sharjah International","Sharjah","UAE",25.33,55.52,"Home of Air Arabia."],
+ ["DOH","OTHH","Hamad International","Doha","Qatar",25.27,51.61,"Famous for the giant yellow teddy-bear statue inside the terminal."],
+ ["RUH","OERK","King Khalid International","Riyadh","Saudi Arabia",24.96,46.70,"Serves Saudi Arabia's capital city."],
+ ["JED","OEJN","King Abdulaziz International","Jeddah","Saudi Arabia",21.68,39.16,"Its famous tent-roofed Hajj Terminal welcomes pilgrims travelling to Makkah."],
+ ["MCT","OOMS","Muscat International","Muscat","Oman",23.59,58.28,"Gateway to Oman's mountains and beaches."],
+ ["BAH","OBBI","Bahrain International","Manama","Bahrain",26.27,50.63,"Home of Gulf Air."],
+ ["CAI","HECA","Cairo International","Cairo","Egypt",30.12,31.41,"The gateway to the Pyramids of Giza."],
+ ["IST","LTFM","Istanbul Airport","Istanbul","Türkiye",41.26,28.74,"One of the biggest airports in Europe and home of Turkish Airlines."],
+ ["LHR","EGLL","Heathrow","London","UK",51.47,-0.45,"The UK's busiest airport."],
+ ["CDG","LFPG","Charles de Gaulle","Paris","France",49.01,2.55,"France's biggest airport, named after a French president."],
+ ["FRA","EDDF","Frankfurt Airport","Frankfurt","Germany",50.03,8.57,"The home base of Lufthansa."],
+ ["AMS","EHAM","Schiphol","Amsterdam","Netherlands",52.31,4.76,"It sits about 3 metres BELOW sea level!"],
+ ["SVO","UUEE","Sheremetyevo","Moscow","Russia",55.97,37.41,"Moscow's biggest airport."],
+ ["JFK","KJFK","John F. Kennedy International","New York","USA",40.64,-73.78,"Named after a US president."],
+ ["LAX","KLAX","Los Angeles International","Los Angeles","USA",33.94,-118.41,"Famous for its space-age Theme Building that looks like a flying saucer."],
+ ["ATL","KATL","Hartsfield–Jackson","Atlanta","USA",33.64,-84.43,"Often the busiest airport in the world for total passengers."],
+ ["ORD","KORD","O'Hare International","Chicago","USA",41.98,-87.90,"Its code ORD comes from its old name: ORchard Field."],
+ ["YYZ","CYYZ","Toronto Pearson","Toronto","Canada",43.68,-79.63,"Lots of Canadian airport codes start with Y."],
+ ["GRU","SBGR","Guarulhos","São Paulo","Brazil",-23.43,-46.47,"The busiest airport in South America."],
+ ["JNB","FAOR","O. R. Tambo International","Johannesburg","South Africa",-26.14,28.25,"One of the busiest airports in Africa."],
+ ["NBO","HKJK","Jomo Kenyatta International","Nairobi","Kenya",-1.32,36.93,"A gateway for safaris in East Africa."],
+ ["BOM","VABB","Chhatrapati Shivaji Maharaj International","Mumbai","India",19.09,72.87,"BOM comes from the city's old name, Bombay."],
+ ["DEL","VIDP","Indira Gandhi International","Delhi","India",28.56,77.10,"India's busiest airport."],
+ ["SIN","WSSS","Changi","Singapore","Singapore",1.36,103.99,"Home of the world's tallest indoor waterfall, the Rain Vortex!"],
+ ["HKG","VHHH","Hong Kong International","Hong Kong","China",22.31,113.91,"Built on an island that was flattened and made bigger with reclaimed land."],
+ ["PEK","ZBAA","Beijing Capital International","Beijing","China",40.08,116.58,"One of the busiest airports in Asia."],
+ ["HND","RJTT","Haneda","Tokyo","Japan",35.55,139.78,"Tokyo's busiest airport, close to the city centre."],
+ ["ICN","RKSI","Incheon International","Seoul","South Korea",37.46,126.44,"Built on land joined up between islands near Seoul."],
+ ["SYD","YSSY","Kingsford Smith","Sydney","Australia",-33.94,151.18,"Named after a famous Australian pilot, Charles Kingsford Smith."],
+ ["AKL","NZAA","Auckland Airport","Auckland","New Zealand",-37.01,174.79,"Emirates' Dubai–Auckland flight is one of the longest flights in the world."],
+];
+const ICAO_REGION={O:"Middle East",E:"Northern Europe",L:"Southern Europe, Türkiye & Israel",U:"Russia & neighbours",K:"USA",C:"Canada",S:"South America",F:"Southern Africa",H:"East & North-East Africa (incl. Egypt, Kenya)",V:"South Asia & parts of SE Asia (India, Thailand, Hong Kong)",W:"Singapore, Malaysia & Indonesia",Z:"China",R:"Japan, Korea & Philippines",Y:"Australia",N:"New Zealand & the Pacific"};
+const CONT=a=>({O:"Middle East",E:"Europe",L:"Europe",U:"Europe",K:"Americas",C:"Americas",S:"Americas",F:"Africa",H:"Africa",V:"Asia",W:"Asia",Z:"Asia",R:"Asia",Y:"Oceania",N:"Oceania"})[a[1][0]];
+const apKm=(a,b)=>gcKm([0,a[5],a[6]],[0,b[5],b[6]]);
+const AP=c=>AIRPORTS.find(a=>a[0]===c);
+const round500=n=>Math.max(500,Math.round(n/500)*500);
+
+const DYNQ={
+ codes:()=>{const r=Math.random();const a=pick(AIRPORTS);const others=shuffle(AIRPORTS.filter(x=>x!==a));
+  if(r<.25){const x=pick(QUIZ.filter(q=>q.t==='codes'));return{q:x.q,opts:shuffle(x.o.map((t,k)=>({t,ok:k===0}))),e:x.e}}
+  if(r<.45)return{q:`Which city's airport has the code <b>${a[0]}</b>?`,opts:uniqOpts(a[3],[...new Set(others.map(x=>x[3]))].filter(c=>c!==a[3])),e:`${a[0]} is ${a[2]} in ${a[3]}, ${a[4]}. ${a[7]}`};
+  if(r<.65)return{q:`What is the 3-letter code for <b>${a[2]}</b> in ${a[3]}?`,opts:uniqOpts(a[0],others.map(x=>x[0])),e:`${a[2]} = ${a[0]}. Pilots call it ${a[1]}.`};
+  if(r<.85)return{q:`Pilots call an airport <b>${a[1]}</b>. What is its passenger code?`,opts:uniqOpts(a[0],others.map(x=>x[0])),e:`${a[1]} (ICAO, for pilots) and ${a[0]} (IATA, for passengers) are both ${a[2]}, ${a[3]}.`};
+  return{q:`An ICAO code starts with <b>${a[1][0]}</b> (like ${a[1]}). Which part of the world is it in?`,opts:uniqOpts(ICAO_REGION[a[1][0]],shuffle(Object.values(ICAO_REGION))),e:`ICAO codes starting with ${a[1][0]} are in: ${ICAO_REGION[a[1][0]]}.`}},
+ distance:()=>{const r=Math.random();
+  if(r<.2){const x=pick(QUIZ.filter(q=>q.t==='distance'));return{q:x.q,opts:shuffle(x.o.map((t,k)=>({t,ok:k===0}))),e:x.e}}
+  if(r<.45){const from=pick(AIRPORTS);const set=shuffle(AIRPORTS.filter(x=>x[3]!==from[3])).slice(0,4);const far=set.reduce((p,c)=>apKm(from,p)>apKm(from,c)?p:c);return{q:`From <b>${from[3]} (${from[0]})</b>, which of these is the FURTHEST away?`,opts:set.map(c=>({t:`${c[3]} (${c[0]})`,ok:c===far})),e:set.map(c=>`${c[3]}: ${num(apKm(from,c))} km`).join(' · ')}}
+  if(r<.75){let a,b,d;do{a=pick(AIRPORTS);b=pick(AIRPORTS);d=apKm(a,b)}while(d<800);const R=round500(d);const opts=[R,round500(d*.55),round500(d*1.6),R+2000>R?R+2000:R+1000].map(n=>num(n)+' km');return{q:`About how far is it from <b>${a[3]}</b> to <b>${b[3]}</b>?`,opts:uniqOpts(opts[0],opts.slice(1).concat([num(R+1000)+' km'])),e:`It is about ${num(d)} km (that's about ${num(Math.round(d/1.852))} nautical miles).`}}
+  let a,b,d;do{a=pick(AIRPORTS);b=pick(AIRPORTS);d=apKm(a,b)}while(d<1500);const h=Math.round(d/900);return{q:`${a[3]} to ${b[3]} is about <b>${num(d)} km</b>. Flying at 900 km/h, about how many hours is that?`,opts:uniqOpts(h+' hours',[(h+2)+' hours',Math.max(1,h-2)+' hours',(h*2)+' hours',(h+4)+' hours']),e:`${num(d)} ÷ 900 ≈ ${(d/900).toFixed(1)} hours — about ${h} hours.`}},
+};
+
+// ---------- AIRPORTS OF THE WORLD ----------
+function viewCodes(){
+ const m=M('codes');const conts=['All','Middle East','Europe','Africa','Asia','Americas','Oceania'];
+ app.innerHTML=lessonHead(m,'Every airport in the world has a secret code — actually two! Learn to read them like a real pilot.')+`
+ <div class="card pad"><h2>🔤 Two kinds of airport code</h2><div class="grid2">
+  <div class="tile"><div class="ic">🎫</div><h3>IATA code — 3 letters</h3><p>Used by <b>passengers and airlines</b>: on tickets, boarding passes, bag tags and departure screens. Given out by IATA, the International Air Transport Association.</p><p style="font-size:26px;font-family:Orbitron;color:#7dd3fc">DXB · LHR · JFK</p></div>
+  <div class="tile"><div class="ic">🧑‍✈️</div><h3>ICAO code — 4 letters</h3><p>Used by <b>pilots and air traffic control</b> in flight plans and on the radio. Given out by ICAO, the International Civil Aviation Organization. The <b>first letter tells you the region</b> of the world!</p><p style="font-size:26px;font-family:Orbitron;color:#ffc23d">OMDB · EGLL · KJFK</p></div></div>
+  <div class="tile" style="margin-top:12px">🕵️ <b>Code secrets:</b> some codes come from OLD names. Mumbai is <b>BOM</b> (from Bombay), Chicago O'Hare is <b>ORD</b> (from ORchard Field), and lots of Canadian airports start with <b>Y</b> (Toronto is YYZ).</div></div>
+ <div class="card pad"><h2>🌍 ICAO first letters: the region detector</h2><div class="grid4">${Object.entries(ICAO_REGION).map(([k,v])=>`<div class="tile center"><div style="font-family:Orbitron;font-size:34px;color:#ffc23d">${k}</div><small>${v}</small></div>`).join('')}</div></div>
+ <div class="card pad"><h2>🛬 Airport explorer (${AIRPORTS.length} airports)</h2><div class="tabs" id="contTabs">${conts.map((c,i)=>`<button class="${i?'':'on'}" data-c="${c}">${c}</button>`).join('')}</div><div class="grid3" id="apGrid"></div></div>
+ <div class="card pad"><h2>🎮 Code challenges</h2><div class="tabs" id="cgTabs"><button class="on" data-g="crack">🔐 Code Cracker (10)</button><button data-g="icao">🕵️ ICAO Detective (8)</button></div><div id="cgBox"></div></div>`+learnedBtn('codes','codes');
+ const draw=c=>{$('#apGrid').innerHTML=AIRPORTS.filter(a=>c==='All'||CONT(a)===c).map(a=>`<div class="tile apcard" data-say="${esc(`${a[0].split('').join(' ')}. ${a[2]}, ${a[3]}. ${a[7]}`)}" style="cursor:pointer"><div class="row" style="justify-content:space-between"><span class="apcode">${a[0]}</span><span class="apicao">${a[1]}</span></div><b>${a[2]}</b><small class="muted">${a[3]}, ${a[4]}</small><p>${a[7]}</p></div>`).join('')};
+ draw('All');$$('#contTabs button').forEach(b=>b.onclick=()=>{$$('#contTabs button').forEach(x=>x.classList.toggle('on',x===b));draw(b.dataset.c)});
+ const box=$('#cgBox');
+ const games={crack:()=>startBtn(box,'🔐 Start Code Cracker',()=>roundGame(box,10,()=>{const g=DYNQ.codes();return g},(s,re)=>roundEnd(box,s,10,8,'codecrack','codemaster',re,['Code Master! 🔐','Explore the airport cards, then try again!']))),
+  icao:()=>startBtn(box,'🕵️ Start ICAO Detective',()=>roundGame(box,8,()=>{const a=pick(AIRPORTS);return{q:`A pilot's flight plan says <b style="font-family:Orbitron;color:#ffc23d">${a[1]}</b>. Which airport is it?`,opts:uniqOpts(`${a[3]} (${a[0]})`,shuffle(AIRPORTS.filter(x=>x!==a)).map(x=>`${x[3]} (${x[0]})`)),e:`First letter ${a[1][0]} = ${ICAO_REGION[a[1][0]]}. ${a[1]} is ${a[2]}.`}},(s,re)=>roundEnd(box,s,8,7,'icaodet','detective',re,['Top detective! 🕵️','Use the first letter to find the region!'])))};
+ $$('#cgTabs button').forEach(b=>b.onclick=()=>{$$('#cgTabs button').forEach(x=>x.classList.toggle('on',x===b));games[b.dataset.g]()});games.crack();
+}
+
+// ---------- DISTANCE LAB ----------
+function viewDistance(){
+ const m=M('distance');const opts=AIRPORTS.map((a,i)=>`<option value="${i}">${a[0]} — ${a[3]}</option>`).join('');const dxb=AIRPORTS[0];
+ const ranked=AIRPORTS.slice(1).map(a=>[a,apKm(dxb,a)]).sort((x,y)=>y[1]-x[1]);
+ app.innerHTML=lessonHead(m,'How far is it from one city to another? Pick any two airports and the Distance Lab will measure the flight for you.')+`
+ <div class="card pad"><h2>📏 Distance calculator</h2><div class="row gap"><label>From <select class="sel" id="dFrom">${opts}</select></label><button class="btn sm grey" id="dSwap">⇄</button><label>To <select class="sel" id="dTo">${opts}</select></label><button class="btn" id="dGo">✈️ Measure</button></div>
+ <svg viewBox="0 0 720 360" id="dmap" style="width:100%;display:block;border-radius:16px;background:#0f3a63;margin-top:12px">${LANDS.map(p=>`<path d="M${p.map(q=>MX(q[0])+' '+MY(q[1])).join(' L')}Z" fill="#2f6b4f" stroke="#4f9a72" stroke-width="1"/>`).join('')}${AIRPORTS.map(a=>`<circle cx="${MX(a[6])}" cy="${MY(a[5])}" r="3" fill="#ffc23d"/>`).join('')}<g id="drt"></g></svg>
+ <div class="status" id="dOut" style="margin-top:12px;text-align:left"></div></div>
+ <div class="card pad"><h2>🌐 Why do flight paths look curved?</h2><div class="grid3"><div class="tile"><div class="ic">🌍</div><h3>The Earth is round</h3><p>The shortest path between two places on a ball is a curve called a <b>great circle</b>. On a flat map it looks bent, but it is really the shortest way!</p></div><div class="tile"><div class="ic">⚓</div><h3>Nautical miles</h3><p>Pilots measure distance in <b>nautical miles</b>. 1 nautical mile = 1.852 km. To change km into nautical miles, divide by 1.852.</p></div><div class="tile"><div class="ic">🌎</div><h3>Around the world</h3><p>The Earth is about <b>40,075 km</b> around the middle. The furthest any two places can be apart is half of that: about 20,000 km.</p></div></div></div>
+ <div class="card pad"><h2>🏆 Distances from Dubai (DXB)</h2>${ranked.map(([a,d])=>`<div class="speedrow"><span>${a[0]} ${a[3]}</span><div><div class="speedbar" style="width:${d/150}%"></div></div><b>${num(d)} km</b></div>`).join('')}</div>
+ <div class="card pad"><h2>🧮 Distance Challenge</h2><p>Estimate distances, find the furthest city and work out flight times. 8 questions — this one is tricky!</p><div id="dGame"></div></div>`+learnedBtn('distance','distance');
+ $('#dTo').value=AIRPORTS.findIndex(a=>a[0]==='LHR');
+ const go=()=>{const a=AIRPORTS[+$('#dFrom').value],b=AIRPORTS[+$('#dTo').value];if(a===b){$('#dOut').textContent='Pick two different airports!';return}const d=apKm(a,b),nm=Math.round(d/1.852),hrs=d/900,h=Math.floor(hrs),mn=Math.round((hrs-h)*60/5)*5;
+  const p=routePath([0,a[5],a[6]],[0,b[5],b[6]]);$('#drt').innerHTML=`<path d="${p}" fill="none" stroke="#7dd3fc" stroke-width="3" stroke-dasharray="8 6"/><circle cx="${MX(a[6])}" cy="${MY(a[5])}" r="7" fill="#22c55e"/><circle cx="${MX(b[6])}" cy="${MY(b[5])}" r="7" fill="#ef4444"/><g><text font-size="22" text-anchor="middle" dy="7">✈️</text><animateMotion dur="2.5s" fill="freeze" rotate="auto" path="${p}"/></g>`;
+  const txt=`${a[3]} to ${b[3]}: about ${num(d)} kilometres, or ${num(nm)} nautical miles. At 900 kilometres per hour that is about ${h} hours ${mn} minutes in the air.`;
+  $('#dOut').innerHTML=`<b>${a[0]} ${a[3]} ➜ ${b[0]} ${b[3]}</b> ${sayBtn(txt)}<br>📏 <b>${num(d)} km</b> · ⚓ <b>${num(nm)} nautical miles</b><br>⏱️ At 900 km/h: about <b>${h} h ${mn} min</b> in the air <span class="muted">(${num(d)} ÷ 900 ≈ ${hrs.toFixed(1)} h)</span><br>🌍 That's about <b>${Math.round(d/40075*100)}%</b> of the way around the Earth.`;
+  S.best.dpairs=(S.best.dpairs||0)+1;save();if(S.best.dpairs>=10)award('measurer')};
+ $('#dGo').onclick=go;$('#dSwap').onclick=()=>{const t=$('#dFrom').value;$('#dFrom').value=$('#dTo').value;$('#dTo').value=t;go()};go();
+ const gb=$('#dGame');startBtn(gb,'📏 Start the Distance Challenge',()=>roundGame(gb,8,()=>DYNQ.distance(),(s,re)=>roundEnd(gb,s,8,6,'distQ','distanceguru',re,['Distance guru! 📏','Use the calculator to explore, then try again!'])));
+}
+
+// ---------- LANGUAGE OF THE SKY ----------
+const PHRASES=[["Roger","I have received your message."],["Wilco","I understand and WILL COmply (I'll do it)."],["Affirm","Yes."],["Negative","No."],["Say again","Please repeat what you said."],["Standby","Wait — I will call you back."],["Unable","I can't do that."],["Cleared for take-off","You may now take off from the runway."],["Line up and wait","Drive onto the runway and wait for take-off clearance."],["Go around","Stop the landing, climb away and try again."],["Squawk","Set this 4-digit code on your transponder so radar can identify you."],["MAYDAY","Life-threatening emergency! Said three times."],["PAN-PAN","Urgent problem, but not an immediate danger. Said three times."]];
+const NUMS=[["0","ZE-RO"],["1","WUN"],["2","TOO"],["3","TREE"],["4","FOW-er"],["5","FIFE"],["6","SIX"],["7","SEV-en"],["8","AIT"],["9","NIN-er"],[".","DAY-SEE-MAL"],["1000","TOU-SAND"]];
+const CALLSIGNS=[["Emirates","EMIRATES","EK"],["British Airways","SPEEDBIRD","BA"],["Etihad","ETIHAD","EY"],["flydubai","SKYDUBAI","FZ"],["Qatar Airways","QATARI","QR"],["Air France","AIRFRANS","AF"],["Lufthansa","LUFTHANSA","LH"],["Singapore Airlines","SINGAPORE","SQ"]];
+const RADIO=[
+ {c:'🚜 Ground: "Skybird 8, taxi to holding point runway 30 Left via taxiway Alpha."',o:['"Taxi to holding point runway 30 Left via Alpha, Skybird 8."','"OK, see you later!"','"Roger, going to runway 12."','"Can you tell me later?"'],e:'Pilots READ BACK the important parts (runway and taxiway) and end with their call sign.'},
+ {c:'🗼 Tower: "Skybird 8, runway 30 Left, cleared for take-off, wind 310 degrees 12 knots."',o:['"Runway 30 Left, cleared for take-off, Skybird 8."','"Thanks, bye!"','"Cleared to land, Skybird 8."','"Runway 13, taking off."'],e:'Take-off clearance must always be read back with the runway number.'},
+ {c:'📡 Departure: "Skybird 8, climb to flight level 350."',o:['"Climb flight level 350, Skybird 8."','"Descend flight level 350, Skybird 8."','"Climbing to 3,500 metres."','"Roger, staying here."'],e:'Flight level 350 means about 35,000 feet. Always read back levels exactly.'},
+ {c:'📡 Control: "Skybird 8, turn right heading 090."',o:['"Right heading 090, Skybird 8."','"Left heading 090, Skybird 8."','"Right heading 900."','"Turning around."'],e:'Read back the direction AND the heading: right, 0-9-0.'},
+ {c:'📡 Control: "Skybird 8, squawk 4271."',o:['"Squawk 4271, Skybird 8."','"Squawk 7700, Skybird 8."','"What is a squawk?"','"4721, Skybird 8."'],e:'A squawk code helps radar find your plane. Read back every digit in the right order.'},
+ {c:'📻 You did not hear the controller clearly because of radio noise.',o:['"Say again, Skybird 8."','"Roger, Skybird 8."','Do nothing and guess.','"Wilco, Skybird 8."'],e:'Never guess! "Say again" asks the controller to repeat.'},
+ {c:'🔥 An engine is on fire and you need to land immediately.',o:['"MAYDAY MAYDAY MAYDAY, Skybird 8, engine fire, request immediate landing."','"PAN-PAN, small problem."','"Hello, can we land please?"','Stay quiet and keep flying.'],e:'MAYDAY (said three times) is for life-threatening emergencies. Everyone else on the frequency stays quiet to help you.'},
+ {c:'🌩️ A storm is on your route. You want to fly around it.',o:['"Skybird 8, request heading 120 to avoid weather."','"I\'m going wherever I like."','"MAYDAY, it\'s raining."','"Negative, Skybird 8."'],e:'Pilots REQUEST changes and wait for the controller\'s approval.'},
+];
+function viewRadio(){
+ const m=M('radio');
+ app.innerHTML=lessonHead(m,'Pilots, control towers and air traffic controllers all over the world talk to each other in a special language. Learn to speak it!')+`
+ <div class="card pad"><h2>🌍 Which language do they speak?</h2><div class="grid2">
+  <div class="tile"><div class="ic">🇬🇧</div><h3>English: the language of the sky</h3><p>The International Civil Aviation Organization (ICAO) made <b>English</b> the international language for pilots and air traffic control. Pilots and controllers who fly or work internationally must pass an English test — they need at least <b>Level 4</b> on a scale from 1 to 6.</p></div>
+  <div class="tile"><div class="ic">🗣️</div><h3>Sometimes a local language too</h3><p>In some countries, controllers may also use their own language with local pilots — for example French in France, Spanish in Spain and Latin America, or Chinese in China. But <b>English must always be available</b> for international flights.</p></div>
+  <div class="tile"><div class="ic">🧑‍✈️</div><h3>In the cockpit</h3><p>Pilots from different countries often fly together, so the cockpit usually works in English too, using the same standard words and checklists.</p></div>
+  <div class="tile"><div class="ic">💁</div><h3>In the cabin</h3><p>Cabin crew make announcements in English plus other languages — on Emirates usually <b>English and Arabic</b>. Big airlines hire crew from many countries, so someone can often help you in your own language!</p></div></div></div>
+ <div class="card pad"><h2>🔢 Pilot numbers</h2><p>Some numbers sound alike on a crackly radio, so pilots say them in a special way. Tap to hear!</p><div class="grid4">${NUMS.map(n=>`<div class="tile center" data-say="${n[1].replace(/-/g,'')}" style="cursor:pointer"><div style="font-family:Orbitron;font-size:30px;color:#ffc23d">${n[0]}</div><b>${n[1]}</b></div>`).join('')}</div><p class="muted">Example: heading 0-9-0 is said "zero niner zero". Flight level 350 is "flight level tree fife zero".</p></div>
+ <div class="card pad"><h2>📖 Radio phrasebook</h2><div class="grid3">${PHRASES.map(p=>`<div class="tile" data-say="${esc(p[0]+'. '+p[1])}" style="cursor:pointer"><h3 style="color:#7dd3fc">${p[0]} 🔊</h3><p>${p[1]}</p></div>`).join('')}</div>
+ <div class="tile" style="margin-top:12px">🔁 <b>The golden rule — READ BACK:</b> when a controller gives an important instruction (runway, heading, height, squawk), the pilot repeats it back and ends with the call sign. That way any mistake is caught straight away.</div></div>
+ <div class="card pad"><h2>📛 Airline call signs</h2><p>On the radio, airlines use a special name. Some are surprising!</p><div class="grid4">${CALLSIGNS.map(c=>`<div class="tile center" data-say="${esc(c[0]+' uses the call sign '+c[1])}" style="cursor:pointer"><small>${c[0]} (${c[2]})</small><div style="font-family:Orbitron;font-size:20px;color:#7dd3fc;margin-top:4px">"${c[1]}"</div></div>`).join('')}</div><p class="muted">So British Airways flight 107 is "Speedbird one zero seven"!</p></div>
+ <div class="card pad"><h2>🎧 The Radio Room</h2><p>You are the pilot of <b>Skybird 8</b>. Choose the correct radio reply. 8 calls!</p><div id="rrBox"></div></div>
+ <div class="card pad"><h2>🧩 Phrase Match</h2><div id="pmBox"></div></div>`+learnedBtn('radio','radio');
+ const rb=$('#rrBox');startBtn(rb,'🎧 Enter the Radio Room',()=>{const set=shuffle(RADIO);roundGame(rb,set.length,i=>{const x=set[i];if(S.sound)speak(x.c.replace(/^[^:]+:/,''));return{q:x.c,opts:shuffle(x.o.map((t,k)=>({t,ok:k===0}))),e:x.e}},(s,re)=>roundEnd(rb,s,set.length,7,'radioroom','radiopro',re,['Radio professional! 🎧','Remember: read back, then your call sign!']))});
+ const pb=$('#pmBox');startBtn(pb,'🧩 Start Phrase Match (8)',()=>roundGame(pb,8,i=>{const r=Math.random();if(r<.4){const c=pick(CALLSIGNS);return{q:`Which airline uses the call sign <b>"${c[1]}"</b>?`,opts:uniqOpts(c[0],shuffle(CALLSIGNS.map(x=>x[0]))),e:`"${c[1]}" is ${c[0]}.`}}if(r<.6){const n=pick(NUMS.slice(0,10));return{q:`How do pilots say the number <b>${n[0]}</b> on the radio?`,opts:uniqOpts(n[1],shuffle(NUMS.map(x=>x[1]))),e:`${n[0]} is said "${n[1]}".`}}const p=pick(PHRASES);return{q:`What does <b>"${p[0]}"</b> mean?`,opts:uniqOpts(p[1],shuffle(PHRASES.map(x=>x[1]))),e:`"${p[0]}" = ${p[1]}`}},(s,re)=>roundEnd(pb,s,8,7,'phrasematch','',re,['Fluent in pilot! 🗣️','Tap the phrasebook cards to practise!'])));
+}
 
 // ---------- name / avatar ----------
 function askName(edit){const avs=['🧑‍✈️','👨‍✈️','👦','🦅','🚀','🐯','🦁','🤖'];let av=S.avatar;
@@ -1624,7 +1840,7 @@ function askName(edit){const avs=['🧑‍✈️','👨‍✈️','👦','🦅',
  $('#go',mm).onclick=done;$('#nm',mm).onkeydown=e=>{if(e.key==='Enter')done()};setTimeout(()=>$('#nm',mm).focus(),100)}
 
 // ---------- router & global clicks ----------
-const VIEWS={home:viewHome,parts:viewParts,forces:viewForces,types:viewTypes,weather:viewWeather,airports:viewAirports,instruments:viewInstruments,routes:viewRoutes,space:viewSpace,history:viewHistory,cinema:viewCinema,life:viewLife,skills:viewSkills,school:viewSchool,maths:viewMaths,quiz:viewQuiz,game:viewMission,classic:viewGame,hangar:viewHangar};
+const VIEWS={home:viewHome,parts:viewParts,forces:viewForces,types:viewTypes,weather:viewWeather,airports:viewAirports,instruments:viewInstruments,routes:viewRoutes,space:viewSpace,history:viewHistory,cinema:viewCinema,life:viewLife,skills:viewSkills,school:viewSchool,maths:viewMaths,quiz:viewQuiz,game:viewMission,classic:viewGame,codes:viewCodes,distance:viewDistance,radio:viewRadio,hangar:viewHangar};
 function route(){stopSpeak();if(cleanup){try{cleanup()}catch(e){}cleanup=null}
  const h=(location.hash||'#home').slice(1);const k=h.indexOf('-');const name=k>0?h.slice(0,k):h,arg=k>0?h.slice(k+1):'';
  (VIEWS[name]||viewHome)(arg);window.scrollTo(0,0);if(TOPIC_OF[name]&&name!=='maths'&&!(name==='cinema'&&arg)){try{addCheckpoints(TOPIC_OF[name])}catch(e){}}}
