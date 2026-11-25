@@ -1,6 +1,6 @@
 # Junior Pilot Academy
 
-A kid-friendly aviation learning site, for one student only.
+A kid-friendly aviation learning site (private).
 
 Live site: https://aahmeddbs-pixel.github.io/junior-pilot-academy/
 
